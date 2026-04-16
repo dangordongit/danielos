@@ -3,249 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daniel Gordon OS — Flagship</title>
+  <title>Daniel Gordon OS — Productized V2</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --bg: #050814;
-      --bg2: #0b1020;
-      --bg3: #111936;
-      --panel: rgba(12,18,34,.72);
-      --panel2: rgba(19,29,52,.82);
-      --panel3: rgba(10,16,30,.94);
-      --text: #f8fbff;
-      --muted: #9eabc4;
-      --line: rgba(255,255,255,.08);
-      --line2: rgba(255,255,255,.14);
-      --blue: #8da7ff;
-      --mint: #79f0c8;
-      --gold: #ffca80;
-      --rose: #ff9bb0;
-      --good: #97efad;
-      --warn: #ffd188;
-      --bad: #ff9f9f;
-      --radius: 28px;
-      --shadow: 0 30px 80px rgba(0,0,0,.42);
-      --glass: 0 1px 0 rgba(255,255,255,.05) inset, 0 24px 80px rgba(5,10,24,.68);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 12% 14%, rgba(141,167,255,.22) 0%, rgba(141,167,255,0) 24%),
-        radial-gradient(circle at 88% 12%, rgba(121,240,200,.16) 0%, rgba(121,240,200,0) 22%),
-        radial-gradient(circle at 50% 130%, rgba(255,202,128,.12) 0%, rgba(255,202,128,0) 32%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 42%, var(--bg3) 100%);
-      overflow-x: hidden;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: radial-gradient(circle at center, black 28%, transparent 78%);
-      opacity: .18;
-    }
-
-    .ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .blob {
-      position: absolute; border-radius: 999px; filter: blur(70px); opacity: .22;
-      animation: floatGlow 16s ease-in-out infinite; will-change: transform, opacity;
-    }
-    .blob.one { width: 340px; height: 340px; background: radial-gradient(circle, rgba(141,167,255,.95) 0%, rgba(141,167,255,0) 70%); top: 4%; left: -4%; }
-    .blob.two { width: 280px; height: 280px; background: radial-gradient(circle, rgba(121,240,200,.9) 0%, rgba(121,240,200,0) 70%); top: 22%; right: -4%; animation-delay: -5s; }
-    .blob.three { width: 320px; height: 320px; background: radial-gradient(circle, rgba(255,202,128,.85) 0%, rgba(255,202,128,0) 70%); bottom: 4%; left: 28%; animation-delay: -9s; }
-    @keyframes floatGlow {
-      0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .18; }
-      50% { transform: translate3d(18px,-16px,0) scale(1.08); opacity: .28; }
-    }
-    @keyframes riseIn {
-      from { opacity: 0; transform: translateY(14px) scale(.985); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .app { max-width: 1480px; margin: 0 auto; padding: 22px; position: relative; z-index: 1; }
-    .reveal { animation: riseIn .65s cubic-bezier(.2,.8,.2,1) both; }
-
-    .glass, .stat, .card, .panel {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--glass);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.018)), linear-gradient(135deg, rgba(255,255,255,.015), rgba(255,255,255,0));
-      backdrop-filter: blur(22px) saturate(165%);
-      -webkit-backdrop-filter: blur(22px) saturate(165%);
-      position: relative;
-      overflow: hidden;
-    }
-    .glass::before, .stat::before, .card::before, .panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 1px;
-      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: .9;
-    }
-
-    .topbar {
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 18px;
-      padding: 22px;
-    }
-    .topbar::after {
-      content: ""; position: absolute; right: -60px; top: -70px; width: 260px; height: 260px;
-      background: radial-gradient(circle, rgba(141,167,255,.22) 0%, rgba(141,167,255,0) 68%); pointer-events: none;
-    }
-    .brand h1 {
-      margin: 0;
-      font-size: clamp(38px, 5vw, 72px);
-      line-height: .94;
-      letter-spacing: -.065em;
-      font-weight: 900;
-      background: linear-gradient(180deg, #ffffff 0%, #e4edff 45%, #c9d9ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 12px 50px rgba(141,167,255,.16);
-    }
-    .brand p { margin: 12px 0 0; color: var(--muted); max-width: 840px; line-height: 1.7; font-size: 14px; }
-    .action-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; position: relative; z-index: 2; }
-
-    .nav-tabs {
-      display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 22px;
-    }
-    .tab {
-      padding: 12px 16px; border-radius: 999px; border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-      color: var(--text); font-size: 13px; font-weight: 800; letter-spacing: .02em;
-    }
-    .tab.active {
-      background: linear-gradient(135deg, rgba(141,167,255,.24), rgba(121,240,200,.12));
-      border-color: rgba(141,167,255,.3);
-      box-shadow: 0 10px 30px rgba(141,167,255,.14);
-    }
-
-    button {
-      border: 1px solid transparent; border-radius: 18px; padding: 12px 16px; font: inherit; font-weight: 800; cursor: pointer;
-      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease; box-shadow: 0 10px 24px rgba(0,0,0,.2); position: relative; overflow: hidden;
-    }
-    button::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0)); opacity: .6; pointer-events: none; }
-    button:hover { transform: translateY(-1px); box-shadow: 0 16px 32px rgba(0,0,0,.26); filter: saturate(112%); }
-    .primary { background: linear-gradient(135deg, #a8bbff 0%, #7f9fff 42%, #6792ff 100%); color: #07101c; }
-    .secondary { background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)); color: var(--text); border-color: var(--line); }
-    .success { background: linear-gradient(135deg, #b7f5dd 0%, #79f0c8 100%); color: #04251a; }
-
-    .hero-stats, .output-grid, .mini-grid, .grid-2, .lux-row, .rings-grid, .shell {
-      display: grid; gap: 16px;
-    }
-    .hero-stats { grid-template-columns: repeat(4, 1fr); margin-bottom: 24px; }
-    .lux-row { grid-template-columns: 1.15fr .85fr; margin-bottom: 24px; }
-    .rings-grid { grid-template-columns: repeat(3, 1fr); }
-    .shell { grid-template-columns: 420px 1fr; align-items: start; gap: 20px; }
-    .output-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .mini-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
-    .grid-2 { grid-template-columns: repeat(2, 1fr); }
-
-    .stat { padding: 18px; }
-    .card { padding: 22px; }
-    .panel { padding: 18px; }
-    .stat::after {
-      content: ""; position: absolute; width: 130px; height: 130px; right: -40px; top: -40px;
-      background: radial-gradient(circle, rgba(141,167,255,.22) 0%, rgba(141,167,255,0) 70%); pointer-events: none;
-    }
-    .stat .label, .section-kicker { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; }
-    .stat .label { margin-bottom: 10px; }
-    .stat .value { font-size: 30px; font-weight: 900; letter-spacing: -.04em; }
-    .section-kicker { margin-bottom: 14px; }
-
-    label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 8px; }
-    input[type="date"], input[type="number"], select, textarea {
-      width: 100%; background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02)); color: var(--text);
-      border: 1px solid var(--line); border-radius: 18px; padding: 13px 14px; font: inherit; outline: none;
-      transition: border-color .14s ease, box-shadow .14s ease, background .14s ease; box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(141,167,255,.58); box-shadow: 0 0 0 4px rgba(141,167,255,.13), 0 8px 24px rgba(141,167,255,.08);
-      background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03));
-    }
-    textarea { min-height: 112px; resize: vertical; }
-
-    .toggle {
-      display: flex; align-items: center; gap: 10px; background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border: 1px solid var(--line); border-radius: 20px; padding: 13px; min-height: 58px; font-size: 14px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
-    }
-    .toggle input { transform: scale(1.18); }
-
-    .mode-chip {
-      display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03)); border: 1px solid var(--line2);
-      font-weight: 900; margin-bottom: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 30px rgba(0,0,0,.18);
-    }
-    .mode-dot {
-      width: 10px; height: 10px; border-radius: 999px; background: var(--blue);
-      box-shadow: 0 0 0 7px rgba(141,167,255,.12), 0 0 30px rgba(141,167,255,.48);
-    }
-    .title { margin: 0; font-size: 16px; font-weight: 850; letter-spacing: -.02em; }
-    .muted { color: var(--muted); }
-    .panel p, .panel ul { margin: 0; line-height: 1.65; color: rgba(248,251,255,.96); }
-    ul { padding-left: 18px; }
-
-    .icon-title { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .icon-badge {
-      width: 36px; height: 36px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center;
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); border: 1px solid var(--line);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: 16px;
-    }
-
-    .callout {
-      padding: 16px; border-radius: 22px;
-      background: linear-gradient(135deg, rgba(141,167,255,.16), rgba(121,240,200,.08) 44%, rgba(255,202,128,.05));
-      border: 1px solid rgba(141,167,255,.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-    }
-    .pill {
-      display: inline-block; padding: 7px 12px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-      border: 1px solid var(--line); margin: 0 7px 7px 0; font-size: 12px; color: #edf3ff; box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
-    }
-
-    .chart-card canvas { width: 100% !important; height: 320px !important; }
-    .ring-card { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 320px; text-align: center; }
-    .ring-wrap { position: relative; width: 126px; height: 126px; margin-bottom: 14px; }
-    .ring-svg { width: 126px; height: 126px; transform: rotate(-90deg); overflow: visible; }
-    .ring-bg { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 10; }
-    .ring-progress { fill: none; stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
-    .ring-value {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; font-weight: 900; letter-spacing: -.03em;
-    }
-    .ring-value span { font-size: 30px; line-height: 1; }
-    .ring-value small { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; margin-top: 4px; }
-    .ring-card h4 { margin: 0 0 6px; font-size: 15px; }
-    .ring-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; max-width: 220px; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 14px; overflow: hidden; border-radius: 18px; }
-    th, td { text-align: left; padding: 12px 8px; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: top; }
-    th { color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 11px; }
-    tr:hover td { background: rgba(255,255,255,.025); }
-    .footer-note { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.6; }
-
-    @media (max-width: 1120px) {
-      .shell, .hero-stats, .output-grid, .mini-grid, .lux-row, .rings-grid, .grid-2 { grid-template-columns: 1fr; }
-      .topbar { flex-direction: column; }
-      .action-row { justify-content: flex-start; }
-      .ring-card { min-height: 220px; }
-    }
+    :root{--bg:#050814;--bg2:#0d1427;--panel:rgba(14,20,36,.78);--panel2:rgba(20,29,50,.84);--panel3:rgba(9,15,28,.96);--text:#f7fbff;--muted:#9dacc6;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--blue:#8da7ff;--mint:#79f0c8;--gold:#ffca80;--good:#9df0b4;--warn:#ffd188;--bad:#ffa1a1;--radius:26px;--glass:0 1px 0 rgba(255,255,255,.05) inset,0 24px 80px rgba(5,10,24,.62)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 10% 12%, rgba(141,167,255,.22) 0%, rgba(141,167,255,0) 22%),radial-gradient(circle at 88% 14%, rgba(121,240,200,.15) 0%, rgba(121,240,200,0) 18%),radial-gradient(circle at 50% 120%, rgba(255,202,128,.10) 0%, rgba(255,202,128,0) 28%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);overflow-x:hidden}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(circle at center, black 28%, transparent 78%);opacity:.18}
+    .ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.blob{position:absolute;border-radius:999px;filter:blur(70px);opacity:.22;animation:floatGlow 16s ease-in-out infinite}.blob.one{width:340px;height:340px;background:radial-gradient(circle, rgba(141,167,255,.95) 0%, rgba(141,167,255,0) 70%);top:4%;left:-4%}.blob.two{width:280px;height:280px;background:radial-gradient(circle, rgba(121,240,200,.9) 0%, rgba(121,240,200,0) 70%);top:26%;right:-4%;animation-delay:-5s}.blob.three{width:320px;height:320px;background:radial-gradient(circle, rgba(255,202,128,.85) 0%, rgba(255,202,128,0) 70%);bottom:4%;left:28%;animation-delay:-9s}@keyframes floatGlow{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.18}50%{transform:translate3d(18px,-16px,0) scale(1.08);opacity:.28}}@keyframes riseIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .app{max-width:1480px;margin:0 auto;padding:22px;position:relative;z-index:1}.reveal{animation:riseIn .65s cubic-bezier(.2,.8,.2,1) both}
+    .glass,.card,.stat,.panel{border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--glass);background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.018)),linear-gradient(135deg, rgba(255,255,255,.015), rgba(255,255,255,0));backdrop-filter:blur(22px) saturate(165%);-webkit-backdrop-filter:blur(22px) saturate(165%);position:relative;overflow:hidden}.glass::before,.card::before,.stat::before,.panel::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.9}
+    .topbar{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding:22px;margin-bottom:18px}.brand h1{margin:0;font-size:clamp(38px,5vw,72px);line-height:.94;letter-spacing:-.065em;font-weight:900;background:linear-gradient(180deg,#fff 0%,#e4edff 45%,#c9d9ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.brand p{margin:12px 0 0;color:var(--muted);max-width:860px;line-height:1.7;font-size:14px}.action-row{display:flex;flex-wrap:wrap;gap:10px}
+    button{border:1px solid transparent;border-radius:18px;padding:12px 16px;font:inherit;font-weight:800;cursor:pointer;transition:transform .14s ease, box-shadow .14s ease, filter .14s ease;box-shadow:0 10px 24px rgba(0,0,0,.2);position:relative;overflow:hidden}button::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0));opacity:.6;pointer-events:none}button:hover{transform:translateY(-1px);box-shadow:0 16px 32px rgba(0,0,0,.26);filter:saturate(112%)}.primary{background:linear-gradient(135deg,#a8bbff 0%,#7f9fff 42%,#6792ff 100%);color:#07101c}.secondary{background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025));color:var(--text);border-color:var(--line)}.success{background:linear-gradient(135deg,#b7f5dd 0%,#79f0c8 100%);color:#04251a}
+    .nav-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 22px}.tab{padding:12px 16px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));color:var(--text);font-size:13px;font-weight:800}.tab.active{background:linear-gradient(135deg, rgba(141,167,255,.24), rgba(121,240,200,.12));border-color:rgba(141,167,255,.3);box-shadow:0 10px 30px rgba(141,167,255,.14)}
+    .hero-stats,.lux-row,.rings-grid,.shell,.output-grid,.mini-grid,.grid-2{display:grid;gap:16px}.hero-stats{grid-template-columns:repeat(4,1fr);margin-bottom:24px}.lux-row{grid-template-columns:1.15fr .85fr;margin-bottom:24px}.rings-grid{grid-template-columns:repeat(3,1fr)}.shell{grid-template-columns:420px 1fr;align-items:start;gap:20px}.output-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mini-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.grid-2{grid-template-columns:repeat(2,1fr)}
+    .stat{padding:18px}.card{padding:22px}.panel{padding:18px}.stat .label,.section-kicker{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.14em}.stat .label{margin-bottom:10px}.stat .value{font-size:30px;font-weight:900;letter-spacing:-.04em}.section-kicker{margin-bottom:14px}
+    label{display:block;font-weight:700;font-size:13px;margin-bottom:8px} input[type=date],input[type=number],select,textarea{width:100%;background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02));color:var(--text);border:1px solid var(--line);border-radius:18px;padding:13px 14px;font:inherit;outline:none;transition:border-color .14s ease, box-shadow .14s ease, background .14s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)} input:focus,select:focus,textarea:focus{border-color:rgba(141,167,255,.58);box-shadow:0 0 0 4px rgba(141,167,255,.13), 0 8px 24px rgba(141,167,255,.08);background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03))} textarea{min-height:112px;resize:vertical}
+    .toggle{display:flex;align-items:center;gap:10px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));border:1px solid var(--line);border-radius:20px;padding:13px;min-height:58px;font-size:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}.toggle input{transform:scale(1.18)}
+    .mode-chip{display:inline-flex;align-items:center;gap:10px;padding:11px 16px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));border:1px solid var(--line2);font-weight:900;margin-bottom:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 10px 30px rgba(0,0,0,.18)}.mode-dot{width:10px;height:10px;border-radius:999px;background:var(--blue);box-shadow:0 0 0 7px rgba(141,167,255,.12), 0 0 30px rgba(141,167,255,.48)}.title{margin:0;font-size:16px;font-weight:850;letter-spacing:-.02em}.muted{color:var(--muted)} .panel p,.panel ul{margin:0;line-height:1.65;color:rgba(248,251,255,.96)} ul{padding-left:18px}
+    .icon-title{display:flex;align-items:center;gap:10px;margin-bottom:12px}.icon-badge{width:36px;height:36px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);font-size:16px}
+    .callout{padding:16px;border-radius:22px;background:linear-gradient(135deg, rgba(141,167,255,.16), rgba(121,240,200,.08) 44%, rgba(255,202,128,.05));border:1px solid rgba(141,167,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+    .pill{display:inline-block;padding:7px 12px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));border:1px solid var(--line);margin:0 7px 7px 0;font-size:12px;color:#edf3ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+    .chart-card canvas{width:100% !important;height:320px !important}.ring-card{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;text-align:center}.ring-wrap{position:relative;width:126px;height:126px;margin-bottom:14px}.ring-svg{width:126px;height:126px;transform:rotate(-90deg);overflow:visible}.ring-bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:10}.ring-progress{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .8s ease}.ring-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;font-weight:900;letter-spacing:-.03em}.ring-value span{font-size:30px;line-height:1}.ring-value small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em;margin-top:4px}.ring-card h4{margin:0 0 6px;font-size:15px}.ring-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5;max-width:220px}
+    table{width:100%;border-collapse:collapse;font-size:14px;overflow:hidden;border-radius:18px} th,td{text-align:left;padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top} th{color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:11px} tr:hover td{background:rgba(255,255,255,.025)} .footer-note{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.6}
+    @media (max-width:1120px){.shell,.hero-stats,.output-grid,.mini-grid,.lux-row,.rings-grid,.grid-2{grid-template-columns:1fr}.topbar{flex-direction:column}.action-row{justify-content:flex-start}.ring-card{min-height:220px}}
   </style>
 </head>
 <body>
@@ -254,7 +35,7 @@
     <div class="topbar glass reveal">
       <div class="brand">
         <h1>Daniel Gordon OS</h1>
-        <p>Flagship version with premium visuals, trend intelligence, treatment timing, and a personalized skin engine including copper peptide and niacinamide in your routine logic.</p>
+        <p>Productized V2 with flagship visuals, trend intelligence, treatment timing, and a personalized skin engine including copper peptide and niacinamide in your routine logic.</p>
       </div>
       <div class="action-row">
         <button class="secondary" id="resetBtn">Reset</button>
@@ -262,45 +43,16 @@
         <button class="success" id="saveBtn">Save Today</button>
       </div>
     </div>
-
-    <div class="nav-tabs reveal">
-      <div class="tab active">Today</div>
-      <div class="tab">Intelligence</div>
-      <div class="tab">Treatments</div>
-      <div class="tab">Stack</div>
-      <div class="tab">History</div>
-    </div>
-
-    <div class="hero-stats reveal">
-      <div class="stat"><div class="label">Current Mode</div><div class="value" id="statMode">—</div></div>
-      <div class="stat"><div class="label">Skin Trend</div><div class="value" id="statTrend">—</div></div>
-      <div class="stat"><div class="label">Tonight</div><div class="value" id="statTonight">—</div></div>
-      <div class="stat"><div class="label">Next Review</div><div class="value" id="statTreatment">—</div></div>
-    </div>
-
+    <div class="nav-tabs reveal"><div class="tab active">Today</div><div class="tab">Intelligence</div><div class="tab">Treatments</div><div class="tab">Stack</div><div class="tab">History</div></div>
+    <div class="hero-stats reveal"><div class="stat"><div class="label">Current Mode</div><div class="value" id="statMode">—</div></div><div class="stat"><div class="label">Skin Trend</div><div class="value" id="statTrend">—</div></div><div class="stat"><div class="label">Tonight</div><div class="value" id="statTonight">—</div></div><div class="stat"><div class="label">Next Review</div><div class="value" id="statTreatment">—</div></div></div>
     <div class="lux-row reveal">
-      <div class="card chart-card">
-        <div class="section-kicker">Visual intelligence</div>
-        <div class="icon-title"><span class="icon-badge">📈</span><h3 class="title">Skin trend chart</h3></div>
-        <canvas id="trendChart"></canvas>
-        <div class="footer-note">Live chart built from your saved history on this device.</div>
-      </div>
+      <div class="card chart-card"><div class="section-kicker">Visual intelligence</div><div class="icon-title"><span class="icon-badge">📈</span><h3 class="title">Skin trend chart</h3></div><canvas id="trendChart"></canvas><div class="footer-note">Live chart built from your saved history on this device.</div></div>
       <div class="rings-grid">
-        <div class="panel ring-card">
-          <div class="ring-wrap"><svg class="ring-svg" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="46"></circle><circle class="ring-progress" id="ringSkin" cx="60" cy="60" r="46" stroke="#8da7ff"></circle></svg><div class="ring-value"><span id="ringSkinValue">0</span><small>Skin</small></div></div>
-          <h4>Skin score</h4><p>Daily visual quality based on your own input.</p>
-        </div>
-        <div class="panel ring-card">
-          <div class="ring-wrap"><svg class="ring-svg" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="46"></circle><circle class="ring-progress" id="ringRecovery" cx="60" cy="60" r="46" stroke="#79f0c8"></circle></svg><div class="ring-value"><span id="ringRecoveryValue">0</span><small>Recovery</small></div></div>
-          <h4>Recovery reserve</h4><p>How calm and resilient your system is today.</p>
-        </div>
-        <div class="panel ring-card">
-          <div class="ring-wrap"><svg class="ring-svg" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="46"></circle><circle class="ring-progress" id="ringGlow" cx="60" cy="60" r="46" stroke="#ffca80"></circle></svg><div class="ring-value"><span id="ringGlowValue">0</span><small>Glow</small></div></div>
-          <h4>Glow potential</h4><p>How much room you have to push performance.</p>
-        </div>
+        <div class="panel ring-card"><div class="ring-wrap"><svg class="ring-svg" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="46"></circle><circle class="ring-progress" id="ringSkin" cx="60" cy="60" r="46" stroke="#8da7ff"></circle></svg><div class="ring-value"><span id="ringSkinValue">0</span><small>Skin</small></div></div><h4>Skin score</h4><p>Daily visual quality based on your own input.</p></div>
+        <div class="panel ring-card"><div class="ring-wrap"><svg class="ring-svg" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="46"></circle><circle class="ring-progress" id="ringRecovery" cx="60" cy="60" r="46" stroke="#79f0c8"></circle></svg><div class="ring-value"><span id="ringRecoveryValue">0</span><small>Recovery</small></div></div><h4>Recovery reserve</h4><p>How calm and resilient your system is today.</p></div>
+        <div class="panel ring-card"><div class="ring-wrap"><svg class="ring-svg" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="46"></circle><circle class="ring-progress" id="ringGlow" cx="60" cy="60" r="46" stroke="#ffca80"></circle></svg><div class="ring-value"><span id="ringGlowValue">0</span><small>Glow</small></div></div><h4>Glow potential</h4><p>How much room you have to push performance.</p></div>
       </div>
     </div>
-
     <div class="shell">
       <div class="card reveal">
         <div class="section-kicker">Daily inputs</div>
@@ -328,12 +80,8 @@
           <div><label for="botoxDate">Last Botox</label><input id="botoxDate" type="date" /></div>
           <div><label for="fillerDate">Last Filler</label><input id="fillerDate" type="date" /></div>
         </div>
-        <div class="action-row" style="margin-top:14px; justify-content:flex-start;">
-          <button class="primary" id="generateBtn">Run OS</button>
-          <button class="secondary" id="refreshTreatmentsBtn">Refresh Treatments</button>
-        </div>
+        <div class="action-row" style="margin-top:14px; justify-content:flex-start;"><button class="primary" id="generateBtn">Run OS</button><button class="secondary" id="refreshTreatmentsBtn">Refresh Treatments</button></div>
       </div>
-
       <div class="reveal" style="display:grid; gap:16px;">
         <div class="card">
           <div class="section-kicker">Today</div>
@@ -348,14 +96,12 @@
           </div>
           <div class="callout" style="margin-top:14px;"><strong>System guidance</strong><div id="systemGuidance" class="footer-note">No output yet.</div></div>
         </div>
-
         <div class="mini-grid">
           <div class="panel"><div class="icon-title"><span class="icon-badge">🧠</span><h3 class="title">Retinol forecast</h3></div><p id="retinolForecast" class="muted"></p></div>
           <div class="panel"><div class="icon-title"><span class="icon-badge">🔴</span><h3 class="title">LED mask</h3></div><p id="ledGuidance" class="muted"></p></div>
           <div class="panel"><div class="icon-title"><span class="icon-badge">🛡️</span><h3 class="title">Recovery load</h3></div><p id="recoveryLoad" class="muted"></p></div>
           <div class="panel"><div class="icon-title"><span class="icon-badge">💉</span><h3 class="title">Treatment timing</h3></div><p id="treatmentGuidance" class="muted"></p></div>
         </div>
-
         <div class="card">
           <div class="section-kicker">Confirmed stack</div>
           <div class="panel" style="margin-bottom:12px;"><div class="icon-title"><span class="icon-badge">🧴</span><h3 class="title">Skin products / routines</h3></div><div id="skinCatalog"></div></div>
@@ -363,227 +109,50 @@
           <div class="panel" style="margin-bottom:12px;"><div class="icon-title"><span class="icon-badge">🍳</span><h3 class="title">Protein / skin foods</h3></div><div id="foodCatalog"></div></div>
           <div class="panel"><div class="icon-title"><span class="icon-badge">⚙️</span><h3 class="title">Treatments / devices</h3></div><div id="deviceCatalog"></div></div>
         </div>
-
         <div class="card">
           <div class="section-kicker">Saved history</div>
-          <table>
-            <thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Alcohol</th><th>Goal</th><th>Notes</th></tr></thead>
-            <tbody id="historyBody"></tbody>
-          </table>
+          <table><thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Alcohol</th><th>Goal</th><th>Notes</th></tr></thead><tbody id="historyBody"></tbody></table>
           <div class="footer-note">Data is saved locally in your browser on this device.</div>
         </div>
       </div>
     </div>
   </div>
-
-  <script>
-    const CATALOG = {
-      skinProducts: ["B5 Hyaluronic Acid","Maestro","Copper GHK / copper peptide serum","Niacinamide","Retinol","AlphaRet","Vitamin C","Light moisturizer","Barrier cream / thicker moisturizer","SPF","LED mask","Copper peptide night","Recovery night","Clean look day"],
-      supplements: ["Liposomal B Supreme","Copper GHK oral spray","Bromelain","Electrolytes"],
-      foods: ["Ribeye","Eggs","Avocado","Peppers","Salmon"],
-      devices: ["LED mask","Halo","BBL","Sculptra","Botox","Filler"]
-    };
-    const STORAGE = { entries: "dgos_personal_entries_v2", treatments: "dgos_personal_treatments_v2" };
-    const $ = (id) => document.getElementById(id);
-    let trendChart;
-
-    function todayISO() {
-      const now = new Date();
-      const tzOffset = now.getTimezoneOffset() * 60000;
-      return new Date(now - tzOffset).toISOString().slice(0, 10);
-    }
-    function daysSince(dateStr) {
-      if (!dateStr) return null;
-      const d = new Date(dateStr + "T00:00:00");
-      const now = new Date(todayISO() + "T00:00:00");
-      return Math.floor((now - d) / 86400000);
-    }
-    function loadEntries() { try { return JSON.parse(localStorage.getItem(STORAGE.entries)) || []; } catch { return []; } }
-    function saveEntries(entries) { localStorage.setItem(STORAGE.entries, JSON.stringify(entries)); }
-    function loadTreatments() { try { return JSON.parse(localStorage.getItem(STORAGE.treatments)) || {}; } catch { return {}; } }
-    function saveTreatments(data) { localStorage.setItem(STORAGE.treatments, JSON.stringify(data)); }
-
-    function renderCatalog() {
-      const render = (items, el) => { el.innerHTML = items.map(item => `<span class="pill">${item}</span>`).join(""); };
-      render(CATALOG.skinProducts, $("skinCatalog"));
-      render(CATALOG.supplements, $("supplementCatalog"));
-      render(CATALOG.foods, $("foodCatalog"));
-      render(CATALOG.devices, $("deviceCatalog"));
-    }
-    function recentRetinolFrequency(entries) { return entries.slice(-7).filter(e => e.retinolLastNight).length; }
-    function calcTrend(entries) {
-      if (entries.length < 3) return "Building";
-      const recent = entries.slice(-3);
-      const recentAvg = recent.reduce((a, b) => a + (Number(b.skinScore) || 0), 0) / recent.length;
-      const prior = entries.slice(-6, -3);
-      if (!prior.length) return recentAvg >= 8 ? "Strong" : recentAvg >= 6.5 ? "Good" : "Building";
-      const priorAvg = prior.reduce((a, b) => a + (Number(b.skinScore) || 0), 0) / prior.length;
-      if (recentAvg > priorAvg + 0.4) return "Up";
-      if (recentAvg < priorAvg - 0.4) return "Down";
-      return "Stable";
-    }
-    function setRing(id, value, max, labelId) {
-      const ring = document.getElementById(id); const label = document.getElementById(labelId); if (!ring || !label) return;
-      const radius = 46, circumference = 2 * Math.PI * radius, pct = Math.max(0, Math.min(1, value / max));
-      ring.style.strokeDasharray = `${circumference}`; ring.style.strokeDashoffset = `${circumference * (1 - pct)}`; label.textContent = Math.round(value);
-    }
-    function renderTrendChart(entries) {
-      const canvas = document.getElementById('trendChart'); if (!canvas || typeof Chart === 'undefined') return; const ctx = canvas.getContext('2d');
-      const data = entries.slice(-14), labels = data.map(e => (e.date || '').slice(5)), scores = data.map(e => Number(e.skinScore) || 0);
-      if (trendChart) trendChart.destroy();
-      trendChart = new Chart(ctx, {
-        type: 'line',
-        data: { labels, datasets: [{ data: scores, tension: 0.42, borderColor: '#8da7ff', borderWidth: 3, pointRadius: 3, pointHoverRadius: 4, pointBackgroundColor: '#ffffff', pointBorderColor: '#8da7ff', fill: true, backgroundColor: (context) => {
-          const chart = context.chart; const area = chart.chartArea; if (!area) return 'rgba(141,167,255,.18)';
-          const g = chart.ctx.createLinearGradient(0, area.top, 0, area.bottom); g.addColorStop(0, 'rgba(141,167,255,.28)'); g.addColorStop(1, 'rgba(141,167,255,.02)'); return g;
-        }}] },
-        options: { responsive: true, maintainAspectRatio: false, animation: { duration: 700, easing: 'easeOutQuart' }, plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(10,16,30,.94)', borderColor: 'rgba(255,255,255,.08)', borderWidth: 1, titleColor: '#fff', bodyColor: '#dce7ff', displayColors: false, padding: 12 } }, scales: { x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#9aa9c4' } }, y: { min: 0, max: 10, grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#9aa9c4', stepSize: 2 } } } }
-      });
-    }
-
-    function getMode(state) {
-      if (state.skinIrritated || state.procedureRecovery || state.badReaction) return 'Recovery';
-      if (state.breakouts === 'High') return 'Recovery';
-      if (state.dryness === 'High') return 'Recovery';
-      if (state.alcohol === 'Heavy') return 'Recovery';
-      if (state.retinolLastNight) return 'Gentle';
-      return state.goal;
-    }
-    function getMorningRoutine(state, mode) {
-      if (mode === 'Recovery') return 'Rinse or gentle cleanse → B5 Hyaluronic Acid → Niacinamide → barrier cream / thicker moisturizer → SPF. Keep the skin calm.';
-      if (mode === 'Gentle') return 'Rinse → B5 Hyaluronic Acid → Niacinamide → light moisturizer → SPF. Keep it quiet the morning after Retinol / AlphaRet.';
-      if (mode === 'Clean Look') return 'Cleanse → B5 Hyaluronic Acid → Niacinamide → Maestro → light moisturizer if needed → SPF.';
-      if (mode === 'Glow') return 'Cleanse → Vitamin C → B5 Hyaluronic Acid → Niacinamide → moisturizer → SPF. Use only if skin is fully calm.';
-      return 'Simple cleanse → Niacinamide → moisturizer → SPF.';
-    }
-    function getNightRoutine(state, mode, entries) {
-      const retinolCount = recentRetinolFrequency(entries);
-      if (mode === 'Recovery') return 'Cleanse gently → Copper GHK / copper peptide serum → barrier cream / thicker moisturizer. No Retinol, no AlphaRet, no aggressive stacking.';
-      if (state.retinolLastNight) return 'Copper GHK / copper peptide serum night + barrier support. No back-to-back Retinol / AlphaRet.';
-      if (state.alcohol === 'Moderate' || state.sleep === 'Bad' || state.breakouts === 'Moderate') return 'Copper GHK / copper peptide serum night preferred. Stay controlled.';
-      if (retinolCount >= 3) return 'Skip Retinol / AlphaRet tonight. Use copper peptide or recovery so the week stays balanced.';
-      return 'Retinol or AlphaRet is available tonight if skin stays calm all day. Cleanse → fully dry skin → Retinol / AlphaRet → light moisturizer. Next night should be copper peptide.';
-    }
-    function getSupplementPlan(state, mode) {
-      if (state.alcohol === 'Heavy') return 'AM: Electrolytes and hydration first. Then Liposomal B Supreme and Copper GHK oral spray only if tolerated. First meal: Bromelain. Keep the day recovery-focused.';
-      if (mode === 'Recovery') return 'AM: gentle hydration support. First meal: Liposomal B Supreme + Copper GHK oral spray. Add Bromelain if needed. Keep the day simple.';
-      return 'AM: Liposomal B Supreme + Copper GHK oral spray. Use Electrolytes as needed. First meal: Bromelain if inflammation/recovery support is needed.';
-    }
-    function getAvoid(state, mode) {
-      if (mode === 'Recovery') return 'No Retinol. No AlphaRet. No Vitamin C if skin is hot or reactive. No exfoliation. No aggressive stacking.';
-      if (state.retinolLastNight) return 'Avoid strong morning actives after Retinol / AlphaRet. Let the previous night do the work.';
-      if (state.breakouts === 'Moderate' || state.breakouts === 'High') return 'Do not panic-stack actives trying to fix everything at once.';
-      return 'Normal caution. Do not add extra products just because skin feels good.';
-    }
-    function getFoodPlan(state, mode) {
-      const items = [];
-      if (state.alcohol === 'Heavy') items.push('Hydration-heavy day: fluids + Electrolytes first.');
-      if (mode === 'Recovery') items.push('Keep foods simple and protein-forward while the barrier settles.');
-      items.push('High protein: Eggs, Salmon, Ribeye.');
-      items.push('Healthy fats for skin support: Avocado.');
-      items.push('Vitamin C / skin support: Peppers.');
-      return '<ul>' + items.map(x => `<li>${x}</li>`).join('') + '</ul>';
-    }
-    function getPerformanceEngine(state, mode, trend, entries) {
-      const items = []; const retinolCount = recentRetinolFrequency(entries);
-      if (['Up','Strong','Good'].includes(trend)) items.push('Skin trend is improving. Stay consistent instead of adding more.');
-      if (trend === 'Down') items.push('Trend is slipping. Simplify for 2–3 days and cut unnecessary actives.');
-      if (!state.retinolLastNight && mode !== 'Recovery' && state.sleep === 'Good' && state.dryness === 'Low') items.push('Tonight is a valid Retinol / AlphaRet candidate if skin stays calm.');
-      if (retinolCount >= 3) items.push('Retinol / AlphaRet frequency is already high this week. Do not force another night.');
-      if (state.alcohol === 'Heavy') items.push('Today is a recovery day, not a performance day.');
-      if (state.breakouts === 'Mild' || state.breakouts === 'Moderate') items.push('Do less, not more. Support barrier first, then return to your normal cycle.');
-      if (!items.length) items.push('No major warning signs. Follow the plan and avoid improvising.');
-      return '<ul>' + items.map(x => `<li>${x}</li>`).join('') + '</ul>';
-    }
-    function getRetinolForecast(state, mode, entries) {
-      const count = recentRetinolFrequency(entries);
-      if (mode === 'Recovery') return 'Retinol / AlphaRet locked out today.';
-      if (state.retinolLastNight) return 'Not tonight. Use copper peptide or recovery.';
-      if (count >= 3) return 'Weekly retinoid load already high. Recovery or copper night is smarter.';
-      if (state.sleep === 'Good' && state.dryness === 'Low' && state.alcohol === 'None') return 'Retinol / AlphaRet is available tonight if skin stays fully calm.';
-      return 'Use caution. Copper peptide may be the better call tonight.';
-    }
-    function getLEDGuidance(state, mode) {
-      if (state.badReaction || state.skinIrritated) return 'Skip LED mask until skin feels calm.';
-      if (mode === 'Recovery') return 'LED mask can be used only if skin feels calm and not hot/reactive.';
-      return 'LED mask is a valid support tool on calm-skin days.';
-    }
-    function getRecoveryLoad(state) {
-      let score = 0;
-      if (state.alcohol === 'Heavy') score += 3; else if (state.alcohol === 'Moderate') score += 1;
-      if (state.skinIrritated) score += 3; if (state.procedureRecovery) score += 3; if (state.badReaction) score += 2;
-      if (state.dryness === 'High') score += 2; else if (state.dryness === 'Medium') score += 1;
-      if (state.sleep === 'Bad') score += 2; else if (state.sleep === 'Okay') score += 1;
-      if (state.breakouts === 'High') score += 2; else if (state.breakouts === 'Moderate') score += 1;
-      if (score >= 8) return 'High recovery load'; if (score >= 4) return 'Moderate recovery load'; return 'Low recovery load';
-    }
-    function getTreatmentGuidance() {
-      const halo = daysSince($("haloDate").value), bbl = daysSince($("bblDate").value), sculptra = daysSince($("sculptraDate").value), botox = daysSince($("botoxDate").value), filler = daysSince($("fillerDate").value);
-      const lines = [], nexts = [];
-      if (halo != null) { lines.push(`Halo: ${halo} days ago. Review window is usually around 6–12 months depending on goals.`); nexts.push({ name: 'Halo review', days: 365 - halo }); }
-      if (bbl != null) { lines.push(`BBL: ${bbl} days ago. Maintenance often lands around 3–4 months.`); nexts.push({ name: 'BBL review', days: 120 - bbl }); }
-      if (sculptra != null) { lines.push(`Sculptra: ${sculptra} days ago. Reassessment often lands around 6–12 months depending on series and response.`); nexts.push({ name: 'Sculptra review', days: 365 - sculptra }); }
-      if (botox != null) { lines.push(`Botox: ${botox} days ago. Movement return is often reassessed around 3–4 months.`); nexts.push({ name: 'Botox review', days: 120 - botox }); }
-      if (filler != null) { lines.push(`Filler: ${filler} days ago. Review timing varies, often around 9–18 months depending on area and look.`); nexts.push({ name: 'Filler review', days: 365 - filler }); }
-      const next = nexts.filter(x => x.days != null).sort((a,b) => a.days - b.days)[0];
-      $("statTreatment").textContent = next ? next.name : 'Review';
-      $("treatmentGuidance").textContent = lines.length ? lines.join(' ') : 'Add treatment dates to get guidance.';
-    }
-    function summarizeGuidance(state, mode, trend) {
-      const notes = [];
-      if (mode === 'Recovery') notes.push('Recovery overrides the rest of the plan.');
-      if (state.procedureRecovery) notes.push('Procedure-recovery lockout is active, so strong actives stay off.');
-      if (state.alcohol === 'Heavy') notes.push('Heavy alcohol shifted today into hydration, inflammation control, and barrier support.');
-      if (state.retinolLastNight) notes.push('The morning stayed gentle because Retinol / AlphaRet was used last night.');
-      if (state.goal === 'Glow' && mode !== 'Glow') notes.push('Glow was requested, but skin safety downgraded the mode.');
-      if (trend === 'Down') notes.push('Recent skin trend suggests simplifying, not adding.');
-      if (!notes.length) notes.push('No major override was triggered. Stay controlled and consistent.');
-      return notes.join(' ');
-    }
-    function renderHistory() {
-      const entries = loadEntries();
-      $("historyBody").innerHTML = entries.slice().reverse().map(e => `<tr><td>${e.date || ''}</td><td>${e.mode || ''}</td><td>${e.skinScore || ''}</td><td>${e.alcohol || ''}</td><td>${e.goal || ''}</td><td>${e.notes || ''}</td></tr>`).join('');
-      $("statTrend").textContent = calcTrend(entries);
-      renderTrendChart(entries);
-    }
-    function collectState() {
-      return {
-        date: $("date").value, alcohol: $("alcohol").value, goal: $("goal").value, dryness: $("dryness").value, sleep: $("sleep").value,
-        skinScore: Number($("skinScore").value || 0), breakouts: $("breakouts").value, retinolLastNight: $("retinolLastNight").checked,
-        skinIrritated: $("skinIrritated").checked, procedureRecovery: $("procedureRecovery").checked, badReaction: $("badReaction").checked, notes: $("notes").value.trim()
-      };
-    }
-    function runOS() {
-      const state = collectState(); const entries = loadEntries(); const trend = calcTrend(entries); const mode = getMode(state);
-      const morning = getMorningRoutine(state, mode), night = getNightRoutine(state, mode, entries), supplements = getSupplementPlan(state, mode), avoid = getAvoid(state, mode), food = getFoodPlan(state, mode), performance = getPerformanceEngine(state, mode, trend, entries), guidance = summarizeGuidance(state, mode, trend), retinolForecast = getRetinolForecast(state, mode, entries), ledGuidance = getLEDGuidance(state, mode), recoveryLoad = getRecoveryLoad(state);
-      $("modeChip").textContent = mode; $("statMode").textContent = mode; $("statTonight").textContent = /Retinol|AlphaRet/.test(night) ? 'Retinol candidate' : 'Recovery / copper';
-      $("morningRoutine").textContent = morning; $("nightRoutine").textContent = night; $("supplementPlan").textContent = supplements; $("avoidToday").textContent = avoid; $("foodPlan").innerHTML = food; $("performanceEngine").innerHTML = performance; $("systemGuidance").textContent = guidance; $("retinolForecast").textContent = retinolForecast; $("ledGuidance").textContent = ledGuidance; $("recoveryLoad").textContent = recoveryLoad;
-      const dotColors = { Recovery: '#ff9f9f', Gentle: '#ffd188', 'Clean Look': '#8da7ff', Glow: '#79f0c8' }; $("modeDot").style.background = dotColors[mode] || '#8da7ff';
-      setRing('ringSkin', state.skinScore || 0, 10, 'ringSkinValue');
-      const recoveryScore = recoveryLoad === 'High recovery load' ? 3 : recoveryLoad === 'Moderate recovery load' ? 6 : 9; setRing('ringRecovery', recoveryScore, 10, 'ringRecoveryValue');
-      const glowScore = mode === 'Glow' ? 9 : mode === 'Clean Look' ? 7 : mode === 'Gentle' ? 5 : 3; setRing('ringGlow', glowScore, 10, 'ringGlowValue');
-      getTreatmentGuidance();
-      return { ...state, mode, morning, night, supplements, avoid };
-    }
-    function saveToday() {
-      const payload = runOS(); if (!payload.date) { alert('Add a date first.'); return; }
-      const entries = loadEntries().filter(e => e.date !== payload.date); entries.push(payload); entries.sort((a,b) => a.date.localeCompare(b.date)); saveEntries(entries); renderHistory(); alert('Saved.');
-    }
-    function refreshTreatments() { const t = { halo: $("haloDate").value, bbl: $("bblDate").value, sculptra: $("sculptraDate").value, botox: $("botoxDate").value, filler: $("fillerDate").value }; saveTreatments(t); getTreatmentGuidance(); }
-    function exportData() { const data = { entries: loadEntries(), treatments: loadTreatments() }; const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'daniel-gordon-os-data.json'; a.click(); URL.revokeObjectURL(url); }
-    function resetInputs() {
-      $("date").value = todayISO(); $("alcohol").value = 'None'; $("goal").value = 'Clean Look'; $("dryness").value = 'Low'; $("sleep").value = 'Good'; $("skinScore").value = 7; $("breakouts").value = 'None';
-      $("retinolLastNight").checked = false; $("skinIrritated").checked = false; $("procedureRecovery").checked = false; $("badReaction").checked = false; $("notes").value = ''; runOS();
-    }
-    function hydrateTreatments() { const t = loadTreatments(); $("haloDate").value = t.halo || ''; $("bblDate").value = t.bbl || ''; $("sculptraDate").value = t.sculptra || ''; $("botoxDate").value = t.botox || ''; $("fillerDate").value = t.filler || ''; getTreatmentGuidance(); }
-
-    $("generateBtn").addEventListener("click", runOS);
-    $("saveBtn").addEventListener("click", saveToday);
-    $("resetBtn").addEventListener("click", resetInputs);
-    $("refreshTreatmentsBtn").addEventListener("click", refreshTreatments);
-    $("exportBtn").addEventListener("click", exportData);
-
-    renderCatalog(); hydrateTreatments(); renderHistory(); resetInputs();
-  </script>
+<script>
+const CATALOG={skinProducts:["B5 Hyaluronic Acid","Maestro","Copper GHK / copper peptide serum","Niacinamide","Retinol","AlphaRet","Vitamin C","Light moisturizer","Barrier cream / thicker moisturizer","SPF","LED mask","Copper peptide night","Recovery night","Clean look day"],supplements:["Liposomal B Supreme","Copper GHK oral spray","Bromelain","Electrolytes"],foods:["Ribeye","Eggs","Avocado","Peppers","Salmon"],devices:["LED mask","Halo","BBL","Sculptra","Botox","Filler"]};
+const STORAGE={entries:"dgos_personal_entries_v2",treatments:"dgos_personal_treatments_v2"}; const $=(id)=>document.getElementById(id); let trendChart;
+function todayISO(){const now=new Date(); const tzOffset=now.getTimezoneOffset()*60000; return new Date(now-tzOffset).toISOString().slice(0,10)}
+function daysSince(dateStr){if(!dateStr) return null; const d=new Date(dateStr+"T00:00:00"); const now=new Date(todayISO()+"T00:00:00"); return Math.floor((now-d)/86400000)}
+function loadEntries(){try{return JSON.parse(localStorage.getItem(STORAGE.entries))||[]}catch{return[]}}
+function saveEntries(entries){localStorage.setItem(STORAGE.entries,JSON.stringify(entries))}
+function loadTreatments(){try{return JSON.parse(localStorage.getItem(STORAGE.treatments))||{}}catch{return{}}}
+function saveTreatments(data){localStorage.setItem(STORAGE.treatments,JSON.stringify(data))}
+function renderCatalog(){const render=(items,el)=>{el.innerHTML=items.map(item=>`<span class="pill">${item}</span>`).join("")}; render(CATALOG.skinProducts,$("skinCatalog")); render(CATALOG.supplements,$("supplementCatalog")); render(CATALOG.foods,$("foodCatalog")); render(CATALOG.devices,$("deviceCatalog"))}
+function recentRetinolFrequency(entries){return entries.slice(-7).filter(e=>e.retinolLastNight).length}
+function calcTrend(entries){if(entries.length<3) return "Building"; const recent=entries.slice(-3); const recentAvg=recent.reduce((a,b)=>a+(Number(b.skinScore)||0),0)/recent.length; const prior=entries.slice(-6,-3); if(!prior.length) return recentAvg>=8?"Strong":recentAvg>=6.5?"Good":"Building"; const priorAvg=prior.reduce((a,b)=>a+(Number(b.skinScore)||0),0)/prior.length; if(recentAvg>priorAvg+.4) return "Up"; if(recentAvg<priorAvg-.4) return "Down"; return "Stable"}
+function setRing(id,value,max,labelId){const ring=document.getElementById(id),label=document.getElementById(labelId); if(!ring||!label) return; const radius=46,circ=2*Math.PI*radius,pct=Math.max(0,Math.min(1,value/max)); ring.style.strokeDasharray=`${circ}`; ring.style.strokeDashoffset=`${circ*(1-pct)}`; label.textContent=Math.round(value)}
+function renderTrendChart(entries){const canvas=document.getElementById('trendChart'); if(!canvas||typeof Chart==='undefined') return; const ctx=canvas.getContext('2d'); const data=entries.slice(-14),labels=data.map(e=>(e.date||'').slice(5)),scores=data.map(e=>Number(e.skinScore)||0); if(trendChart) trendChart.destroy(); trendChart=new Chart(ctx,{type:'line',data:{labels,datasets:[{data:scores,tension:.42,borderColor:'#8da7ff',borderWidth:3,pointRadius:3,pointHoverRadius:4,pointBackgroundColor:'#ffffff',pointBorderColor:'#8da7ff',fill:true,backgroundColor:(context)=>{const chart=context.chart,area=chart.chartArea; if(!area) return 'rgba(141,167,255,.18)'; const g=chart.ctx.createLinearGradient(0,area.top,0,area.bottom); g.addColorStop(0,'rgba(141,167,255,.28)'); g.addColorStop(1,'rgba(141,167,255,.02)'); return g;}}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:700,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(10,16,30,.94)',borderColor:'rgba(255,255,255,.08)',borderWidth:1,titleColor:'#fff',bodyColor:'#dce7ff',displayColors:false,padding:12}},scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#9aa9c4'}},y:{min:0,max:10,grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#9aa9c4',stepSize:2}}}}})}
+function getMode(state){if(state.skinIrritated||state.procedureRecovery||state.badReaction) return 'Recovery'; if(state.breakouts==='High'||state.dryness==='High'||state.alcohol==='Heavy') return 'Recovery'; if(state.retinolLastNight) return 'Gentle'; return state.goal}
+function getMorningRoutine(state,mode){if(mode==='Recovery') return 'Rinse or gentle cleanse → B5 Hyaluronic Acid → Niacinamide → barrier cream / thicker moisturizer → SPF. Keep the skin calm.'; if(mode==='Gentle') return 'Rinse → B5 Hyaluronic Acid → Niacinamide → light moisturizer → SPF. Keep it quiet the morning after Retinol / AlphaRet.'; if(mode==='Clean Look') return 'Cleanse → B5 Hyaluronic Acid → Niacinamide → Maestro → light moisturizer if needed → SPF.'; if(mode==='Glow') return 'Cleanse → Vitamin C → B5 Hyaluronic Acid → Niacinamide → moisturizer → SPF. Use only if skin is fully calm.'; return 'Simple cleanse → Niacinamide → moisturizer → SPF.'}
+function getNightRoutine(state,mode,entries){const retinolCount=recentRetinolFrequency(entries); if(mode==='Recovery') return 'Cleanse gently → Copper GHK / copper peptide serum → barrier cream / thicker moisturizer. No Retinol, no AlphaRet, no aggressive stacking.'; if(state.retinolLastNight) return 'Copper GHK / copper peptide serum night + barrier support. No back-to-back Retinol / AlphaRet.'; if(state.alcohol==='Moderate'||state.sleep==='Bad'||state.breakouts==='Moderate') return 'Copper GHK / copper peptide serum night preferred. Stay controlled.'; if(retinolCount>=3) return 'Skip Retinol / AlphaRet tonight. Use copper peptide or recovery so the week stays balanced.'; return 'Retinol or AlphaRet is available tonight if skin stays calm all day. Cleanse → fully dry skin → Retinol / AlphaRet → light moisturizer. Next night should be copper peptide.'}
+function getSupplementPlan(state,mode){if(state.alcohol==='Heavy') return 'AM: Electrolytes and hydration first. Then Liposomal B Supreme and Copper GHK oral spray only if tolerated. First meal: Bromelain. Keep the day recovery-focused.'; if(mode==='Recovery') return 'AM: gentle hydration support. First meal: Liposomal B Supreme + Copper GHK oral spray. Add Bromelain if needed. Keep the day simple.'; return 'AM: Liposomal B Supreme + Copper GHK oral spray. Use Electrolytes as needed. First meal: Bromelain if inflammation/recovery support is needed.'}
+function getAvoid(state,mode){if(mode==='Recovery') return 'No Retinol. No AlphaRet. No Vitamin C if skin is hot or reactive. No exfoliation. No aggressive stacking.'; if(state.retinolLastNight) return 'Avoid strong morning actives after Retinol / AlphaRet. Let the previous night do the work.'; if(state.breakouts==='Moderate'||state.breakouts==='High') return 'Do not panic-stack actives trying to fix everything at once.'; return 'Normal caution. Do not add extra products just because skin feels good.'}
+function getFoodPlan(state,mode){const items=[]; if(state.alcohol==='Heavy') items.push('Hydration-heavy day: fluids + Electrolytes first.'); if(mode==='Recovery') items.push('Keep foods simple and protein-forward while the barrier settles.'); items.push('High protein: Eggs, Salmon, Ribeye.'); items.push('Healthy fats for skin support: Avocado.'); items.push('Vitamin C / skin support: Peppers.'); return '<ul>'+items.map(x=>`<li>${x}</li>`).join('')+'</ul>'}
+function getPerformanceEngine(state,mode,trend,entries){const items=[],retinolCount=recentRetinolFrequency(entries); if(['Up','Strong','Good'].includes(trend)) items.push('Skin trend is improving. Stay consistent instead of adding more.'); if(trend==='Down') items.push('Trend is slipping. Simplify for 2–3 days and cut unnecessary actives.'); if(!state.retinolLastNight&&mode!=='Recovery'&&state.sleep==='Good'&&state.dryness==='Low') items.push('Tonight is a valid Retinol / AlphaRet candidate if skin stays calm.'); if(retinolCount>=3) items.push('Retinol / AlphaRet frequency is already high this week. Do not force another night.'); if(state.alcohol==='Heavy') items.push('Today is a recovery day, not a performance day.'); if(state.breakouts==='Mild'||state.breakouts==='Moderate') items.push('Do less, not more. Support barrier first, then return to your normal cycle.'); if(!items.length) items.push('No major warning signs. Follow the plan and avoid improvising.'); return '<ul>'+items.map(x=>`<li>${x}</li>`).join('')+'</ul>'}
+function getRetinolForecast(state,mode,entries){const count=recentRetinolFrequency(entries); if(mode==='Recovery') return 'Retinol / AlphaRet locked out today.'; if(state.retinolLastNight) return 'Not tonight. Use copper peptide or recovery.'; if(count>=3) return 'Weekly retinoid load already high. Recovery or copper night is smarter.'; if(state.sleep==='Good'&&state.dryness==='Low'&&state.alcohol==='None') return 'Retinol / AlphaRet is available tonight if skin stays fully calm.'; return 'Use caution. Copper peptide may be the better call tonight.'}
+function getLEDGuidance(state,mode){if(state.badReaction||state.skinIrritated) return 'Skip LED mask until skin feels calm.'; if(mode==='Recovery') return 'LED mask can be used only if skin feels calm and not hot/reactive.'; return 'LED mask is a valid support tool on calm-skin days.'}
+function getRecoveryLoad(state){let score=0; if(state.alcohol==='Heavy') score+=3; else if(state.alcohol==='Moderate') score+=1; if(state.skinIrritated) score+=3; if(state.procedureRecovery) score+=3; if(state.badReaction) score+=2; if(state.dryness==='High') score+=2; else if(state.dryness==='Medium') score+=1; if(state.sleep==='Bad') score+=2; else if(state.sleep==='Okay') score+=1; if(state.breakouts==='High') score+=2; else if(state.breakouts==='Moderate') score+=1; if(score>=8) return 'High recovery load'; if(score>=4) return 'Moderate recovery load'; return 'Low recovery load'}
+function getTreatmentGuidance(){const halo=daysSince($("haloDate").value),bbl=daysSince($("bblDate").value),sculptra=daysSince($("sculptraDate").value),botox=daysSince($("botoxDate").value),filler=daysSince($("fillerDate").value); const lines=[],nexts=[]; if(halo!=null){lines.push(`Halo: ${halo} days ago. Review window is usually around 6–12 months depending on goals.`);nexts.push({name:'Halo review',days:365-halo})} if(bbl!=null){lines.push(`BBL: ${bbl} days ago. Maintenance often lands around 3–4 months.`);nexts.push({name:'BBL review',days:120-bbl})} if(sculptra!=null){lines.push(`Sculptra: ${sculptra} days ago. Reassessment often lands around 6–12 months depending on series and response.`);nexts.push({name:'Sculptra review',days:365-sculptra})} if(botox!=null){lines.push(`Botox: ${botox} days ago. Movement return is often reassessed around 3–4 months.`);nexts.push({name:'Botox review',days:120-botox})} if(filler!=null){lines.push(`Filler: ${filler} days ago. Review timing varies, often around 9–18 months depending on area and look.`);nexts.push({name:'Filler review',days:365-filler})} const next=nexts.filter(x=>x.days!=null).sort((a,b)=>a.days-b.days)[0]; $("statTreatment").textContent=next?next.name:'Review'; $("treatmentGuidance").textContent=lines.length?lines.join(' '):'Add treatment dates to get guidance.'}
+function summarizeGuidance(state,mode,trend){const notes=[]; if(mode==='Recovery') notes.push('Recovery overrides the rest of the plan.'); if(state.procedureRecovery) notes.push('Procedure-recovery lockout is active, so strong actives stay off.'); if(state.alcohol==='Heavy') notes.push('Heavy alcohol shifted today into hydration, inflammation control, and barrier support.'); if(state.retinolLastNight) notes.push('The morning stayed gentle because Retinol / AlphaRet was used last night.'); if(state.goal==='Glow'&&mode!=='Glow') notes.push('Glow was requested, but skin safety downgraded the mode.'); if(trend==='Down') notes.push('Recent skin trend suggests simplifying, not adding.'); if(!notes.length) notes.push('No major override was triggered. Stay controlled and consistent.'); return notes.join(' ')}
+function renderHistory(){const entries=loadEntries(); $("historyBody").innerHTML=entries.slice().reverse().map(e=>`<tr><td>${e.date||''}</td><td>${e.mode||''}</td><td>${e.skinScore||''}</td><td>${e.alcohol||''}</td><td>${e.goal||''}</td><td>${e.notes||''}</td></tr>`).join(''); $("statTrend").textContent=calcTrend(entries); renderTrendChart(entries)}
+function collectState(){return{date:$("date").value,alcohol:$("alcohol").value,goal:$("goal").value,dryness:$("dryness").value,sleep:$("sleep").value,skinScore:Number($("skinScore").value||0),breakouts:$("breakouts").value,retinolLastNight:$("retinolLastNight").checked,skinIrritated:$("skinIrritated").checked,procedureRecovery:$("procedureRecovery").checked,badReaction:$("badReaction").checked,notes:$("notes").value.trim()}}
+function runOS(){const state=collectState(),entries=loadEntries(),trend=calcTrend(entries),mode=getMode(state); const morning=getMorningRoutine(state,mode),night=getNightRoutine(state,mode,entries),supplements=getSupplementPlan(state,mode),avoid=getAvoid(state,mode),food=getFoodPlan(state,mode),performance=getPerformanceEngine(state,mode,trend,entries),guidance=summarizeGuidance(state,mode,trend),retinolForecast=getRetinolForecast(state,mode,entries),ledGuidance=getLEDGuidance(state,mode),recoveryLoad=getRecoveryLoad(state); $("modeChip").textContent=mode; $("statMode").textContent=mode; $("statTonight").textContent=/Retinol|AlphaRet/.test(night)?'Retinol candidate':'Recovery / copper'; $("morningRoutine").textContent=morning; $("nightRoutine").textContent=night; $("supplementPlan").textContent=supplements; $("avoidToday").textContent=avoid; $("foodPlan").innerHTML=food; $("performanceEngine").innerHTML=performance; $("systemGuidance").textContent=guidance; $("retinolForecast").textContent=retinolForecast; $("ledGuidance").textContent=ledGuidance; $("recoveryLoad").textContent=recoveryLoad; const dotColors={Recovery:'#ff9f9f',Gentle:'#ffd188','Clean Look':'#8da7ff',Glow:'#79f0c8'}; $("modeDot").style.background=dotColors[mode]||'#8da7ff'; setRing('ringSkin',state.skinScore||0,10,'ringSkinValue'); const recoveryScore=recoveryLoad==='High recovery load'?3:recoveryLoad==='Moderate recovery load'?6:9; setRing('ringRecovery',recoveryScore,10,'ringRecoveryValue'); const glowScore=mode==='Glow'?9:mode==='Clean Look'?7:mode==='Gentle'?5:3; setRing('ringGlow',glowScore,10,'ringGlowValue'); getTreatmentGuidance(); return {...state,mode,morning,night,supplements,avoid}}
+function saveToday(){const payload=runOS(); if(!payload.date){alert('Add a date first.'); return} const entries=loadEntries().filter(e=>e.date!==payload.date); entries.push(payload); entries.sort((a,b)=>a.date.localeCompare(b.date)); saveEntries(entries); renderHistory(); alert('Saved.')}
+function refreshTreatments(){const t={halo:$("haloDate").value,bbl:$("bblDate").value,sculptra:$("sculptraDate").value,botox:$("botoxDate").value,filler:$("fillerDate").value}; saveTreatments(t); getTreatmentGuidance()}
+function exportData(){const data={entries:loadEntries(),treatments:loadTreatments()}; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='daniel-gordon-os-data.json'; a.click(); URL.revokeObjectURL(url)}
+function resetInputs(){$("date").value=todayISO(); $("alcohol").value='None'; $("goal").value='Clean Look'; $("dryness").value='Low'; $("sleep").value='Good'; $("skinScore").value=7; $("breakouts").value='None'; $("retinolLastNight").checked=false; $("skinIrritated").checked=false; $("procedureRecovery").checked=false; $("badReaction").checked=false; $("notes").value=''; runOS()}
+function hydrateTreatments(){const t=loadTreatments(); $("haloDate").value=t.halo||''; $("bblDate").value=t.bbl||''; $("sculptraDate").value=t.sculptra||''; $("botoxDate").value=t.botox||''; $("fillerDate").value=t.filler||''; getTreatmentGuidance()}
+$("generateBtn").addEventListener("click",runOS); $("saveBtn").addEventListener("click",saveToday); $("resetBtn").addEventListener("click",resetInputs); $("refreshTreatmentsBtn").addEventListener("click",refreshTreatments); $("exportBtn").addEventListener("click",exportData);
+renderCatalog(); hydrateTreatments(); renderHistory(); resetInputs();
+</script>
 </body>
 </html>
