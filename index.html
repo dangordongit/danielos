@@ -6,136 +6,220 @@
   <title>Daniel Gordon OS</title>
   <style>
     :root {
-      --bg: #0b0f17;
-      --panel: #131a26;
-      --panel-2: #182233;
-      --panel-3: #0f1622;
-      --text: #eef4fb;
-      --muted: #9fb0c6;
-      --line: #283449;
-      --accent: #6ea8fe;
-      --accent-2: #87e1c2;
-      --good: #9be6ab;
-      --warn: #ffd38a;
-      --bad: #ff9a9a;
-      --radius: 20px;
-      --shadow: 0 18px 40px rgba(0,0,0,.28);
+      --bg: #060913;
+      --bg-2: #0b1020;
+      --panel: rgba(14, 20, 34, 0.82);
+      --panel-solid: #10172a;
+      --panel-2: rgba(21, 31, 51, 0.88);
+      --panel-3: #0d1424;
+      --text: #f6f8fc;
+      --muted: #98a7c2;
+      --line: rgba(255,255,255,.08);
+      --line-strong: rgba(255,255,255,.14);
+      --accent: #7c9cff;
+      --accent-2: #63e6be;
+      --accent-3: #ffb86b;
+      --accent-4: #ff8fa3;
+      --good: #8ef0a8;
+      --warn: #ffd089;
+      --bad: #ff9f9f;
+      --radius: 24px;
+      --radius-sm: 18px;
+      --shadow: 0 24px 60px rgba(0,0,0,.34);
+      --glow: 0 0 0 1px rgba(255,255,255,.02), 0 18px 60px rgba(8, 14, 28, .52);
     }
 
     * { box-sizing: border-box; }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #142034 0%, #0b0f17 40%);
       color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(124,156,255,.22) 0%, rgba(124,156,255,0) 28%),
+        radial-gradient(circle at 88% 12%, rgba(99,230,190,.16) 0%, rgba(99,230,190,0) 26%),
+        radial-gradient(circle at 50% 120%, rgba(255,184,107,.12) 0%, rgba(255,184,107,0) 32%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black 32%, transparent 85%);
+      opacity: .22;
     }
 
     .app {
-      max-width: 1380px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 18px;
+      padding: 22px;
+      position: relative;
+      z-index: 1;
     }
 
     .topbar {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 18px;
+      gap: 18px;
+      margin-bottom: 22px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      backdrop-filter: blur(16px) saturate(145%);
+      -webkit-backdrop-filter: blur(16px) saturate(145%);
+      box-shadow: var(--glow);
     }
 
     .brand h1 {
       margin: 0;
-      font-size: clamp(30px, 5vw, 52px);
-      line-height: 1;
-      letter-spacing: -.04em;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: .96;
+      letter-spacing: -.055em;
+      font-weight: 900;
+      background: linear-gradient(180deg, #ffffff 0%, #dce7ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .brand p {
-      margin: 8px 0 0;
+      margin: 10px 0 0;
       color: var(--muted);
-      max-width: 760px;
-      line-height: 1.5;
+      max-width: 820px;
+      line-height: 1.65;
+      font-size: 14px;
     }
 
     .action-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      justify-content: flex-end;
     }
 
     button {
-      border: 0;
-      border-radius: 14px;
+      border: 1px solid transparent;
+      border-radius: 16px;
       padding: 12px 16px;
       font: inherit;
       font-weight: 800;
       cursor: pointer;
-      transition: transform .12s ease, opacity .12s ease;
+      transition: transform .14s ease, opacity .14s ease, box-shadow .14s ease, border-color .14s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,.16);
     }
 
-    button:hover { transform: translateY(-1px); }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(0,0,0,.24);
+    }
+
     button:active { transform: translateY(0); }
 
-    .primary { background: var(--accent); color: #06111f; }
-    .secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
-    .success { background: var(--accent-2); color: #052218; }
-    .danger { background: #352126; color: #ffd7d7; border: 1px solid #5b3338; }
+    .primary {
+      background: linear-gradient(135deg, #8fb1ff 0%, #6ea8fe 50%, #5f90ff 100%);
+      color: #06111f;
+    }
+
+    .secondary {
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      color: var(--text);
+      border-color: var(--line);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .success {
+      background: linear-gradient(135deg, #9cf1d1 0%, #63e6be 100%);
+      color: #032217;
+    }
+
+    .danger {
+      background: linear-gradient(135deg, rgba(255,143,163,.18), rgba(255,143,163,.08));
+      color: #ffd7e0;
+      border-color: rgba(255,143,163,.18);
+    }
 
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
+      gap: 14px;
+      margin-bottom: 22px;
     }
 
     .stat, .card, .panel {
-      background: rgba(19,26,38,.96);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: var(--glow);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      backdrop-filter: blur(18px) saturate(155%);
+      -webkit-backdrop-filter: blur(18px) saturate(155%);
     }
 
     .stat {
-      padding: 16px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -30px;
+      top: -30px;
+      background: radial-gradient(circle, rgba(124,156,255,.18) 0%, rgba(124,156,255,0) 70%);
+      pointer-events: none;
     }
 
     .stat .label {
       color: var(--muted);
       text-transform: uppercase;
       font-size: 11px;
-      letter-spacing: .08em;
-      margin-bottom: 8px;
+      letter-spacing: .11em;
+      margin-bottom: 10px;
     }
 
     .stat .value {
-      font-size: 24px;
-      font-weight: 800;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -.03em;
     }
 
     .shell {
       display: grid;
-      grid-template-columns: 400px 1fr;
-      gap: 18px;
+      grid-template-columns: 410px 1fr;
+      gap: 20px;
       align-items: start;
     }
 
-    .card { padding: 18px; }
-    .panel { padding: 16px; }
+    .card { padding: 20px; }
+    .panel { padding: 18px; }
 
     .section-kicker {
       color: var(--muted);
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: .1em;
-      margin-bottom: 12px;
+      letter-spacing: .14em;
+      margin-bottom: 13px;
     }
 
-    .stack { display: grid; gap: 12px; }
+    .stack { display: grid; gap: 14px; }
     .grid-2, .grid-3, .output-grid, .mini-grid {
       display: grid;
-      gap: 12px;
+      gap: 14px;
     }
 
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -146,7 +230,8 @@
     label {
       display: block;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
+      letter-spacing: .01em;
       margin-bottom: 8px;
     }
 
@@ -155,17 +240,24 @@
     select,
     textarea {
       width: 100%;
-      background: var(--panel-3);
+      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
       color: var(--text);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 12px 13px;
+      border-radius: 16px;
+      padding: 13px 14px;
       font: inherit;
       outline: none;
+      transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(124,156,255,.55);
+      box-shadow: 0 0 0 4px rgba(124,156,255,.12);
     }
 
     textarea {
-      min-height: 92px;
+      min-height: 98px;
       resize: vertical;
     }
 
@@ -173,26 +265,27 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background: var(--panel-2);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 12px;
-      min-height: 56px;
+      border-radius: 18px;
+      padding: 13px;
+      min-height: 58px;
       font-size: 14px;
     }
 
-    .toggle input { transform: scale(1.15); }
+    .toggle input { transform: scale(1.18); }
 
     .mode-chip {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 9px 14px;
+      gap: 10px;
+      padding: 11px 16px;
       border-radius: 999px;
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      font-weight: 800;
-      margin-bottom: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+      border: 1px solid var(--line-strong);
+      font-weight: 900;
+      margin-bottom: 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
     }
 
     .mode-dot {
@@ -200,12 +293,14 @@
       height: 10px;
       border-radius: 999px;
       background: var(--accent);
-      box-shadow: 0 0 0 5px rgba(110,168,254,.16);
+      box-shadow: 0 0 0 6px rgba(124,156,255,.12), 0 0 24px rgba(124,156,255,.4);
     }
 
     .title {
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -.02em;
     }
 
     .muted { color: var(--muted); }
@@ -215,336 +310,316 @@
 
     .panel p, .panel ul {
       margin: 0;
-      line-height: 1.58;
+      line-height: 1.62;
+      color: rgba(246,248,252,.96);
     }
 
     ul { padding-left: 18px; }
 
     .callout {
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(110,168,254,.08);
-      border: 1px solid rgba(110,168,254,.22);
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(124,156,255,.14), rgba(99,230,190,.08));
+      border: 1px solid rgba(124,156,255,.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
     }
 
     .pill {
       display: inline-block;
-      padding: 6px 10px;
+      padding: 7px 12px;
       border-radius: 999px;
-      background: var(--panel-2);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
       border: 1px solid var(--line);
-      margin: 0 6px 6px 0;
+      margin: 0 7px 7px 0;
       font-size: 12px;
+      color: #edf3ff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
+      overflow: hidden;
+      border-radius: 16px;
     }
 
     th, td {
       text-align: left;
-      padding: 10px 8px;
-      border-bottom: 1px solid var(--line);
+      padding: 12px 8px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
       vertical-align: top;
     }
 
     th {
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 11px;
+    }
+
+    tr:hover td {
+      background: rgba(255,255,255,.02);
     }
 
     .footer-note {
       margin-top: 10px;
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     @media (max-width: 1120px) {
       .shell, .hero-stats, .output-grid, .mini-grid { grid-template-columns: 1fr; }
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; }
+      .action-row { justify-content: flex-start; }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="topbar">
-      <div class="brand">
+    <div class="hero">
+      <div class="card hero-card">
         <h1>Daniel Gordon OS</h1>
-        <p>
-          Personalized skin, supplement, food, recovery, and treatment engine built from your confirmed stack:
-          B5 Hyaluronic Acid, Maestro, Copper GHK, Retinol, AlphaRet, Vitamin C, moisturizer/barrier support, SPF,
-          LED mask, Liposomal B Supreme, Copper GHK oral spray, bromelain, electrolytes, ribeye, eggs, avocado,
-          peppers, salmon, and your treatment cadence for Halo, BBL, Sculptra, Botox, and filler.
-        </p>
+        <div class="subtitle">
+          A private skin, supplement, recovery, nutrition, and treatment decision engine. Fill in today’s inputs and the app gives you your mode, skincare plan, supplements, food priorities, and treatment guidance.
+        </div>
       </div>
-      <div class="action-row">
-        <button class="secondary" id="resetBtn">Reset</button>
-        <button class="secondary" id="exportBtn">Export Data</button>
-        <button class="success" id="saveBtn">Save Today</button>
-      </div>
-    </div>
-
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="label">Current Mode</div>
-        <div class="value" id="statMode">—</div>
-      </div>
-      <div class="stat">
-        <div class="label">Skin Trend</div>
-        <div class="value" id="statTrend">—</div>
-      </div>
-      <div class="stat">
-        <div class="label">Tonight</div>
-        <div class="value" id="statTonight">—</div>
-      </div>
-      <div class="stat">
-        <div class="label">Next Review</div>
-        <div class="value" id="statTreatment">—</div>
+      <div class="card quick-stats">
+        <div class="stat">
+          <div class="stat-label">Current Mode</div>
+          <div class="stat-value" id="statMode">Not set</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Retinol Status</div>
+          <div class="stat-value" id="statRetinol">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Skin Score Trend</div>
+          <div class="stat-value" id="statTrend">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Next Treatment</div>
+          <div class="stat-value" id="statTreatment">Review</div>
+        </div>
       </div>
     </div>
 
-    <div class="shell">
-      <div class="card">
-        <div class="section-kicker">Daily inputs</div>
-        <div class="stack">
-          <div>
-            <label for="date">Date</label>
-            <input id="date" type="date" />
-          </div>
+    <div class="grid">
+      <div class="card controls">
+        <div class="section-title">Daily check-in</div>
 
-          <div class="grid-2">
-            <div>
-              <label for="alcohol">Alcohol last night</label>
-              <select id="alcohol">
-                <option>None</option>
-                <option>Moderate</option>
-                <option>Heavy</option>
-              </select>
-            </div>
-            <div>
-              <label for="goal">Goal today</label>
-              <select id="goal">
-                <option>Clean Look</option>
-                <option>Glow</option>
-                <option>Recovery</option>
-              </select>
-            </div>
-          </div>
+        <div class="field">
+          <label for="date">Date</label>
+          <input id="date" type="date" />
+        </div>
 
-          <div class="grid-2">
-            <div>
-              <label for="dryness">Dryness</label>
-              <select id="dryness">
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-              </select>
-            </div>
-            <div>
-              <label for="sleep">Sleep</label>
-              <select id="sleep">
-                <option>Good</option>
-                <option>Okay</option>
-                <option>Bad</option>
-              </select>
-            </div>
-          </div>
+        <div class="field">
+          <label for="alcohol">Alcohol last night</label>
+          <select id="alcohol">
+            <option>None</option>
+            <option>Moderate</option>
+            <option>Heavy</option>
+          </select>
+        </div>
 
-          <div class="grid-2">
-            <div>
-              <label for="skinScore">Skin score (1–10)</label>
-              <input id="skinScore" type="number" min="1" max="10" step="1" value="7" />
-            </div>
-            <div>
-              <label for="breakouts">Breakouts</label>
-              <select id="breakouts">
-                <option>None</option>
-                <option>Mild</option>
-                <option>Moderate</option>
-                <option>High</option>
-              </select>
-            </div>
-          </div>
+        <div class="toggle-row">
+          <label class="check"><input id="retinolLastNight" type="checkbox" /> Retinol last night</label>
+          <label class="check"><input id="skinIrritated" type="checkbox" /> Skin irritated</label>
+          <label class="check"><input id="procedureRecovery" type="checkbox" /> Procedure recovery</label>
+          <label class="check"><input id="badReaction" type="checkbox" /> Tight / flaky / reactive</label>
+        </div>
 
-          <div class="grid-2">
-            <label class="toggle"><input id="retinolLastNight" type="checkbox" /> Retinol / AlphaRet last night</label>
-            <label class="toggle"><input id="skinIrritated" type="checkbox" /> Skin irritated</label>
-            <label class="toggle"><input id="procedureRecovery" type="checkbox" /> Procedure recovery active</label>
-            <label class="toggle"><input id="badReaction" type="checkbox" /> Tight / flaky / reactive</label>
-          </div>
+        <div class="field">
+          <label for="sleepQuality">Sleep quality</label>
+          <select id="sleepQuality">
+            <option>Good</option>
+            <option>Okay</option>
+            <option>Bad</option>
+          </select>
+        </div>
 
-          <div>
-            <label for="notes">Notes</label>
-            <textarea id="notes" placeholder="Examples: red wine last night, B5 + Maestro this morning, cheeks tight, LED mask done, Halo 12 days ago..."></textarea>
-          </div>
+        <div class="field">
+          <label for="drynessLevel">Dryness level</label>
+          <select id="drynessLevel">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
 
-          <div class="section-kicker" style="margin-top:8px;">Treatment timing</div>
-          <div class="grid-2">
-            <div><label for="haloDate">Last Halo</label><input id="haloDate" type="date" /></div>
-            <div><label for="bblDate">Last BBL</label><input id="bblDate" type="date" /></div>
-            <div><label for="sculptraDate">Last Sculptra</label><input id="sculptraDate" type="date" /></div>
-            <div><label for="botoxDate">Last Botox</label><input id="botoxDate" type="date" /></div>
-            <div><label for="fillerDate">Last Filler</label><input id="fillerDate" type="date" /></div>
-          </div>
+        <div class="field">
+          <label for="goal">Goal today</label>
+          <select id="goal">
+            <option>Clean Look</option>
+            <option>Glow</option>
+            <option>Recovery</option>
+          </select>
+        </div>
 
-          <div class="action-row">
-            <button class="primary" id="generateBtn">Run OS</button>
-            <button class="secondary" id="refreshTreatmentsBtn">Refresh Treatments</button>
-          </div>
+        <div class="field">
+          <label for="skinScore">Skin score today (1–10)</label>
+          <input id="skinScore" type="number" min="1" max="10" step="1" value="7" />
+        </div>
+
+        <div class="field">
+          <label for="notes">Notes</label>
+          <textarea id="notes" placeholder="Examples: red wine last night, skin felt great this morning, mild dryness on cheeks, halo 10 days ago..."></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="generateBtn">Generate My Day</button>
+          <button class="secondary" id="saveBtn">Save Today</button>
+          <button class="secondary" id="exportBtn">Export Data</button>
+          <button class="secondary" id="resetBtn">Reset Inputs</button>
         </div>
       </div>
 
-      <div class="stack">
-        <div class="card">
-          <div class="section-kicker">Today</div>
-          <div class="mode-chip"><span class="mode-dot" id="modeDot"></span> <span id="modeChip">Not set</span></div>
+      <div>
+        <div class="card output">
+          <div class="section-title">Today’s output</div>
+          <div class="mode-chip" id="modeChip">Mode: Not set</div>
 
           <div class="output-grid">
             <div class="panel">
-              <h3 class="title">Morning routine</h3>
-              <p id="morningRoutine" class="muted">Run the OS to generate today’s plan.</p>
+              <h3>Morning Routine</h3>
+              <p id="morningRoutine" class="muted">Generate your day to see today’s routine.</p>
             </div>
             <div class="panel">
-              <h3 class="title">Night routine</h3>
-              <p id="nightRoutine" class="muted">Run the OS to generate tonight’s plan.</p>
+              <h3>Night Routine</h3>
+              <p id="nightRoutine" class="muted">Generate your day to see tonight’s plan.</p>
             </div>
             <div class="panel">
-              <h3 class="title">Supplement plan</h3>
-              <p id="supplementPlan" class="muted">Your supplement timing will appear here.</p>
+              <h3>Supplement Plan</h3>
+              <p id="supplementPlan" class="muted">Your supplement logic will show here.</p>
             </div>
             <div class="panel">
-              <h3 class="title">Avoid today</h3>
-              <p id="avoidToday" class="muted">Restrictions will appear here.</p>
+              <h3>Avoid Today</h3>
+              <p id="avoidToday" class="muted">Restrictions and caution notes will show here.</p>
             </div>
             <div class="panel">
-              <h3 class="title">Food priorities</h3>
+              <h3>Skin-Focused Food Priorities</h3>
               <div id="foodPlan" class="muted"></div>
             </div>
             <div class="panel">
-              <h3 class="title">Performance engine</h3>
-              <div id="performanceEngine" class="muted"></div>
+              <h3>Recommendation Engine</h3>
+              <div id="recommendationEngine" class="muted"></div>
             </div>
           </div>
 
-          <div class="callout" style="margin-top:14px;">
-            <strong>System guidance</strong>
-            <div id="systemGuidance" class="footer-note">No output yet.</div>
+          <div class="recommendations" id="recommendationsBox">
+            <strong>System guidance:</strong>
+            <div id="systemGuidance" class="small" style="margin-top:8px;">No output yet.</div>
           </div>
         </div>
 
-        <div class="mini-grid">
-          <div class="panel">
-            <h3 class="title">Retinol forecast</h3>
-            <p id="retinolForecast" class="muted"></p>
-          </div>
-          <div class="panel">
-            <h3 class="title">LED mask</h3>
-            <p id="ledGuidance" class="muted"></p>
-          </div>
-          <div class="panel">
-            <h3 class="title">Recovery load</h3>
-            <p id="recoveryLoad" class="muted"></p>
-          </div>
-          <div class="panel">
-            <h3 class="title">Treatment timing</h3>
-            <p id="treatmentGuidance" class="muted"></p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="section-kicker">Confirmed stack</div>
-
-          <div class="panel" style="margin-bottom:12px;">
-            <h3 class="title">Skin products / routines</h3>
-            <div id="skinCatalog"></div>
-          </div>
-
-          <div class="panel" style="margin-bottom:12px;">
-            <h3 class="title">Supplements</h3>
-            <div id="supplementCatalog"></div>
-          </div>
-
-          <div class="panel" style="margin-bottom:12px;">
-            <h3 class="title">Protein / skin foods</h3>
-            <div id="foodCatalog"></div>
-          </div>
-
-          <div class="panel">
-            <h3 class="title">Treatments / devices</h3>
-            <div id="deviceCatalog"></div>
+        <div class="card treatments" style="margin-top:18px;">
+          <div class="section-title">Treatments and timing</div>
+          <div class="treatment-grid">
+            <div class="panel">
+              <h3>Treatment Dates</h3>
+              <div class="field"><label for="haloDate">Last Halo</label><input id="haloDate" type="date" /></div>
+              <div class="field"><label for="bblDate">Last BBL</label><input id="bblDate" type="date" /></div>
+              <div class="field"><label for="sculptraDate">Last Sculptra</label><input id="sculptraDate" type="date" /></div>
+              <div class="field"><label for="botoxDate">Last Botox</label><input id="botoxDate" type="date" /></div>
+              <div class="field"><label for="fillerDate">Last Filler</label><input id="fillerDate" type="date" /></div>
+              <button class="success" id="refreshTreatmentsBtn">Refresh Treatment Guidance</button>
+            </div>
+            <div class="panel">
+              <h3>Current Treatment Guidance</h3>
+              <div id="treatmentGuidance" class="muted">Add your treatment dates, then refresh guidance.</div>
+            </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="section-kicker">Saved history</div>
+        <div class="card catalog" style="margin-top:18px;">
+          <div class="section-title">Your known stack</div>
+          <div class="catalog-grid">
+            <div class="panel">
+              <h3>Skin products</h3>
+              <div id="skinCatalog"></div>
+            </div>
+            <div class="panel">
+              <h3>Supplements</h3>
+              <div id="supplementCatalog"></div>
+            </div>
+            <div class="panel">
+              <h3>Protein / skin foods</h3>
+              <div id="foodCatalog"></div>
+            </div>
+            <div class="panel">
+              <h3>Devices / services</h3>
+              <div id="deviceCatalog"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card output history" style="margin-top:18px;">
+          <div class="section-title">Saved history</div>
           <table>
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Mode</th>
-                <th>Score</th>
-                <th>Alcohol</th>
                 <th>Goal</th>
+                <th>Skin Score</th>
+                <th>Alcohol</th>
                 <th>Notes</th>
               </tr>
             </thead>
             <tbody id="historyBody"></tbody>
           </table>
-          <div class="footer-note">Data is saved locally in your browser on this device.</div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const CATALOG = {
+    const catalog = {
       skinProducts: [
-        "B5 Hyaluronic Acid",
-        "Maestro",
-        "Copper GHK / copper peptide serum",
-        "Retinol",
-        "AlphaRet",
-        "Vitamin C",
-        "Light moisturizer",
-        "Barrier cream / thicker moisturizer",
-        "SPF",
-        "LED mask",
-        "Copper peptide night",
-        "Recovery night",
-        "Clean look day"
+        'B5 hyaluronic acid',
+        'Maestro serum',
+        'Copper GHK / copper peptide support',
+        'Retinol / AlphaRet',
+        'Vitamin C',
+        'Light moisturizer',
+        'Barrier cream / thicker moisturizer',
+        'SPF',
+        'LED mask'
       ],
       supplements: [
-        "Liposomal B Supreme",
-        "Copper GHK oral spray",
-        "Bromelain",
-        "Electrolytes"
+        'Liposomal B Supreme',
+        'Copper GHK oral spray',
+        'Bromelain',
+        'Electrolytes',
+        'Collagen-supportive nutrients'
       ],
       foods: [
-        "Ribeye",
-        "Eggs",
-        "Avocado",
-        "Peppers",
-        "Salmon"
+        'Ribeye',
+        'Eggs',
+        'Avocado',
+        'Peppers',
+        'Salmon',
+        'High-protein clean meals',
+        'Hydration-focused recovery foods'
       ],
       devices: [
-        "LED mask",
-        "Halo",
-        "BBL",
-        "Sculptra",
-        "Botox",
-        "Filler"
+        'LED / laser mask',
+        'Halo',
+        'BBL',
+        'Sculptra',
+        'Botox',
+        'Filler'
       ]
     };
 
-    const STORAGE = {
-      entries: "dgos_personal_entries_v1",
-      treatments: "dgos_personal_treatments_v1"
+    const byId = (id) => document.getElementById(id);
+    const storageKeys = {
+      entries: 'dgos_entries_v1',
+      treatments: 'dgos_treatments_v1'
     };
-
-    const $ = (id) => document.getElementById(id);
 
     function todayISO() {
       const now = new Date();
@@ -554,382 +629,277 @@
 
     function daysSince(dateStr) {
       if (!dateStr) return null;
-      const d = new Date(dateStr + "T00:00:00");
-      const now = new Date(todayISO() + "T00:00:00");
+      const d = new Date(dateStr + 'T00:00:00');
+      const now = new Date(todayISO() + 'T00:00:00');
       return Math.floor((now - d) / (1000 * 60 * 60 * 24));
     }
 
     function loadEntries() {
-      try { return JSON.parse(localStorage.getItem(STORAGE.entries)) || []; }
+      try { return JSON.parse(localStorage.getItem(storageKeys.entries)) || []; }
       catch { return []; }
     }
 
     function saveEntries(entries) {
-      localStorage.setItem(STORAGE.entries, JSON.stringify(entries));
+      localStorage.setItem(storageKeys.entries, JSON.stringify(entries));
     }
 
     function loadTreatments() {
-      try { return JSON.parse(localStorage.getItem(STORAGE.treatments)) || {}; }
+      try { return JSON.parse(localStorage.getItem(storageKeys.treatments)) || {}; }
       catch { return {}; }
     }
 
     function saveTreatments(data) {
-      localStorage.setItem(STORAGE.treatments, JSON.stringify(data));
+      localStorage.setItem(storageKeys.treatments, JSON.stringify(data));
     }
 
     function renderCatalog() {
-      const render = (items, el) => {
-        el.innerHTML = items.map(item => `<span class="pill">${item}</span>`).join("");
+      const renderPills = (items, el) => {
+        el.innerHTML = items.map(i => `<span class="pill">${i}</span>`).join('');
       };
-      render(CATALOG.skinProducts, $("skinCatalog"));
-      render(CATALOG.supplements, $("supplementCatalog"));
-      render(CATALOG.foods, $("foodCatalog"));
-      render(CATALOG.devices, $("deviceCatalog"));
-    }
-
-    function recentRetinolFrequency(entries) {
-      return entries.slice(-7).filter(e => e.retinolLastNight).length;
-    }
-
-    function calcTrend(entries) {
-      if (entries.length < 3) return "Building";
-      const recent = entries.slice(-3);
-      const recentAvg = recent.reduce((a, b) => a + (Number(b.skinScore) || 0), 0) / recent.length;
-      const prior = entries.slice(-6, -3);
-
-      if (!prior.length) {
-        if (recentAvg >= 8) return "Strong";
-        if (recentAvg >= 6.5) return "Good";
-        return "Building";
-      }
-
-      const priorAvg = prior.reduce((a, b) => a + (Number(b.skinScore) || 0), 0) / prior.length;
-      if (recentAvg > priorAvg + 0.4) return "Up";
-      if (recentAvg < priorAvg - 0.4) return "Down";
-      return "Stable";
+      renderPills(catalog.skinProducts, byId('skinCatalog'));
+      renderPills(catalog.supplements, byId('supplementCatalog'));
+      renderPills(catalog.foods, byId('foodCatalog'));
+      renderPills(catalog.devices, byId('deviceCatalog'));
     }
 
     function getMode(state) {
-      if (state.skinIrritated || state.procedureRecovery || state.badReaction) return "Recovery";
-      if (state.breakouts === "High") return "Recovery";
-      if (state.dryness === "High") return "Recovery";
-      if (state.alcohol === "Heavy") return "Recovery";
-      if (state.retinolLastNight) return "Gentle";
+      if (state.skinIrritated || state.procedureRecovery || state.badReaction) return 'Recovery';
+      if (state.drynessLevel === 'High') return 'Recovery';
+      if (state.alcohol === 'Heavy') return 'Recovery';
+      if (state.retinolLastNight) return 'Gentle';
       return state.goal;
     }
 
-    function getMorningRoutine(state, mode) {
-      if (mode === "Recovery") {
-        return "Rinse or gentle cleanse → B5 Hyaluronic Acid → barrier cream / thicker moisturizer → SPF. Keep the skin calm.";
+    function getMorningRoutine(mode) {
+      if (mode === 'Recovery') {
+        return 'Rinse or gentle cleanse → B5 hyaluronic acid → barrier cream → SPF. Optional LED mask only if skin feels calm.';
       }
-      if (mode === "Gentle") {
-        return "Rinse → B5 Hyaluronic Acid → light moisturizer → SPF. Keep it quiet the morning after Retinol / AlphaRet.";
+      if (mode === 'Gentle') {
+        return 'Rinse → B5 → light moisturizer → SPF. Keep it quiet and polished. Skip aggressive actives.';
       }
-      if (mode === "Clean Look") {
-        return "Cleanse → B5 Hyaluronic Acid → Maestro → light moisturizer if needed → SPF.";
+      if (mode === 'Clean Look') {
+        return 'Cleanse → B5 → Maestro → light moisturizer if needed → SPF.';
       }
-      if (mode === "Glow") {
-        return "Cleanse → Vitamin C → B5 Hyaluronic Acid → moisturizer → SPF. Use only if skin is fully calm.";
+      if (mode === 'Glow') {
+        return 'Cleanse → Vitamin C → B5 → moisturizer → SPF. Use only if skin is calm.';
       }
-      return "Simple cleanse → moisturizer → SPF.";
+      return 'Simple cleanse → moisturizer → SPF.';
     }
 
-    function getNightRoutine(state, mode, entries) {
-      const retinolCount = recentRetinolFrequency(entries);
-
-      if (mode === "Recovery") {
-        return "Cleanse gently → barrier cream / thicker moisturizer. No Retinol, no AlphaRet, no aggressive stacking.";
+    function getNightRoutine(state, mode) {
+      if (mode === 'Recovery') {
+        return 'Cleanse gently → barrier support → moisturizer. No retinol, no exfoliation.';
       }
-
       if (state.retinolLastNight) {
-        return "Copper GHK / copper peptide serum night or full recovery night. No back-to-back Retinol / AlphaRet.";
+        return 'Copper / repair night or full recovery night. Do not repeat retinol tonight.';
       }
-
-      if (state.alcohol === "Moderate" || state.sleep === "Bad" || state.breakouts === "Moderate") {
-        return "Copper GHK / copper peptide serum night preferred. Stay controlled.";
+      if (state.sleepQuality === 'Bad' || state.alcohol === 'Moderate') {
+        return 'Copper / repair night preferred. Cleanse → copper support → moisturizer.';
       }
-
-      if (retinolCount >= 3) {
-        return "Skip Retinol / AlphaRet tonight. Use copper peptide or recovery so the week stays balanced.";
-      }
-
-      return "Retinol or AlphaRet is available tonight if skin stays calm all day. Cleanse → fully dry skin → Retinol / AlphaRet → light moisturizer.";
+      return 'Retinol night if skin feels fully calm; otherwise copper night. Cleanse → fully dry skin → retinol (controlled amount) → light moisturizer.';
     }
 
     function getSupplementPlan(state, mode) {
-      if (state.alcohol === "Heavy") {
-        return "AM: Electrolytes and hydration first. Then Liposomal B Supreme and Copper GHK oral spray only if tolerated. First meal: Bromelain. Keep the day recovery-focused.";
+      if (state.alcohol === 'Heavy') {
+        return 'AM: electrolytes + hydration first. Then Liposomal B Supreme and Copper GHK only if stomach feels fine. With first meal: bromelain and core stack. Keep the day recovery-focused.';
       }
-
-      if (mode === "Recovery") {
-        return "AM: gentle hydration support. First meal: Liposomal B Supreme + Copper GHK oral spray. Add Bromelain if needed. Keep the day simple.";
+      if (mode === 'Recovery') {
+        return 'AM: gentle hydration support. With first meal: core stack + bromelain if helpful. Keep supplements simple and recovery-focused.';
       }
-
-      return "AM: Liposomal B Supreme + Copper GHK oral spray. Use Electrolytes as needed. First meal: Bromelain if inflammation/recovery support is needed.";
+      return 'AM: Liposomal B Supreme + Copper GHK. First meal: core stack and protein-heavy meal. Evening: keep it light and recovery-supportive.';
     }
 
-    function getAvoid(state, mode) {
-      if (mode === "Recovery") {
-        return "No Retinol. No AlphaRet. No Vitamin C if skin is hot or reactive. No exfoliation. No aggressive stacking.";
+    function getAvoidToday(state, mode) {
+      if (mode === 'Recovery') {
+        return 'No retinol. No vitamin C if skin feels hot or reactive. No exfoliation. No aggressive stacking.';
       }
       if (state.retinolLastNight) {
-        return "Avoid strong morning actives after Retinol / AlphaRet. Let the previous night do the work.";
+        return 'Avoid strong actives this morning. No over-layering.';
       }
-      if (state.breakouts === "Moderate" || state.breakouts === "High") {
-        return "Do not panic-stack actives trying to fix everything at once.";
+      if (state.sleepQuality === 'Bad') {
+        return 'Avoid overcomplicating the routine.';
       }
-      return "Normal caution. Do not add extra products just because skin feels good.";
+      return 'Normal caution. Do not overdo actives just because skin feels good.';
     }
 
     function getFoodPlan(state, mode) {
-      const items = [];
-
-      if (state.alcohol === "Heavy") {
-        items.push("Hydration-heavy day: fluids + Electrolytes first.");
+      const base = [
+        'High-protein focus: eggs, salmon, ribeye, lean clean protein meals.',
+        'Barrier / skin fats: avocado.',
+        'Vitamin C / skin support: peppers.'
+      ];
+      if (state.alcohol === 'Heavy') {
+        base.unshift('Hydration-heavy recovery day: fluids + electrolytes first. Choose anti-inflammatory, easy-to-digest meals.');
       }
-
-      if (mode === "Recovery") {
-        items.push("Keep foods simple and protein-forward while the barrier settles.");
+      if (mode === 'Recovery') {
+        base.unshift('Keep foods simple, protein-heavy, and anti-inflammatory.');
       }
-
-      items.push("High protein: Eggs, Salmon, Ribeye.");
-      items.push("Healthy fats for skin support: Avocado.");
-      items.push("Vitamin C / skin support: Peppers.");
-
-      return "<ul>" + items.map(x => `<li>${x}</li>`).join("") + "</ul>";
+      return '<ul>' + base.map(x => `<li>${x}</li>`).join('') + '</ul>';
     }
 
-    function getPerformanceEngine(state, mode, trend, entries) {
-      const items = [];
-      const retinolCount = recentRetinolFrequency(entries);
-
-      if (trend === "Up" || trend === "Strong" || trend === "Good") {
-        items.push("Skin trend is improving. Stay consistent instead of adding more.");
+    function getRecommendations(state, mode, trend) {
+      const recs = [];
+      if (mode === 'Recovery') recs.push('Keep the routine minimal today. Let the barrier win.');
+      if (state.alcohol === 'Heavy') recs.push('This is a hydration and inflammation-control day, not a performance day.');
+      if (!state.retinolLastNight && !state.skinIrritated && state.drynessLevel === 'Low' && state.sleepQuality === 'Good') {
+        recs.push('Tonight is a viable retinol candidate if your skin stays calm all day.');
       }
-
-      if (trend === "Down") {
-        items.push("Trend is slipping. Simplify for 2–3 days and cut unnecessary actives.");
-      }
-
-      if (!state.retinolLastNight && mode !== "Recovery" && state.sleep === "Good" && state.dryness === "Low") {
-        items.push("Tonight is a valid Retinol / AlphaRet candidate if skin stays calm.");
-      }
-
-      if (retinolCount >= 3) {
-        items.push("Retinol / AlphaRet frequency is already high this week. Do not force another night.");
-      }
-
-      if (state.alcohol === "Heavy") {
-        items.push("Today is a recovery day, not a performance day.");
-      }
-
-      if (state.breakouts === "Mild" || state.breakouts === "Moderate") {
-        items.push("Do less, not more. Support barrier first, then return to your normal cycle.");
-      }
-
-      if (!items.length) {
-        items.push("No major warning signs. Follow the plan and avoid improvising.");
-      }
-
-      return "<ul>" + items.map(x => `<li>${x}</li>`).join("") + "</ul>";
+      if (state.retinolLastNight) recs.push('Use tonight as copper or recovery, not back-to-back retinol.');
+      if (trend === 'Down') recs.push('Trend is slipping. Reduce variables and simplify for 2–3 days.');
+      if (trend === 'Up') recs.push('Trend is improving. Stay consistent instead of adding more.');
+      recs.push('LED mask can be used on calm-skin days as a support tool.');
+      return '<ul>' + recs.map(x => `<li>${x}</li>`).join('') + '</ul>';
     }
 
-    function getRetinolForecast(state, mode, entries) {
-      const count = recentRetinolFrequency(entries);
-
-      if (mode === "Recovery") return "Retinol / AlphaRet locked out today.";
-      if (state.retinolLastNight) return "Not tonight. Use copper peptide or recovery.";
-      if (count >= 3) return "Weekly retinoid load already high. Recovery or copper night is smarter.";
-      if (state.sleep === "Good" && state.dryness === "Low" && state.alcohol === "None") return "Retinol / AlphaRet is available tonight if skin stays fully calm.";
-      return "Use caution. Copper peptide may be the better call tonight.";
-    }
-
-    function getLEDGuidance(state, mode) {
-      if (state.badReaction || state.skinIrritated) return "Skip LED mask until skin feels calm.";
-      if (mode === "Recovery") return "LED mask can be used only if skin feels calm and not hot/reactive.";
-      return "LED mask is a valid support tool on calm-skin days.";
-    }
-
-    function getRecoveryLoad(state) {
-      let score = 0;
-      if (state.alcohol === "Heavy") score += 3;
-      else if (state.alcohol === "Moderate") score += 1;
-
-      if (state.skinIrritated) score += 3;
-      if (state.procedureRecovery) score += 3;
-      if (state.badReaction) score += 2;
-      if (state.dryness === "High") score += 2;
-      else if (state.dryness === "Medium") score += 1;
-      if (state.sleep === "Bad") score += 2;
-      else if (state.sleep === "Okay") score += 1;
-      if (state.breakouts === "High") score += 2;
-      else if (state.breakouts === "Moderate") score += 1;
-
-      if (score >= 8) return "High recovery load";
-      if (score >= 4) return "Moderate recovery load";
-      return "Low recovery load";
-    }
-
-    function getTreatmentGuidance() {
-      const halo = daysSince($("haloDate").value);
-      const bbl = daysSince($("bblDate").value);
-      const sculptra = daysSince($("sculptraDate").value);
-      const botox = daysSince($("botoxDate").value);
-      const filler = daysSince($("fillerDate").value);
-
-      const lines = [];
-      const nexts = [];
-
-      if (halo != null) {
-        lines.push(`Halo: ${halo} days ago. Review window is usually around 6–12 months depending on goals.`);
-        nexts.push({ name: "Halo review", days: 365 - halo });
-      }
-      if (bbl != null) {
-        lines.push(`BBL: ${bbl} days ago. Maintenance often lands around 3–4 months.`);
-        nexts.push({ name: "BBL review", days: 120 - bbl });
-      }
-      if (sculptra != null) {
-        lines.push(`Sculptra: ${sculptra} days ago. Reassessment often lands around 6–12 months depending on series and response.`);
-        nexts.push({ name: "Sculptra review", days: 365 - sculptra });
-      }
-      if (botox != null) {
-        lines.push(`Botox: ${botox} days ago. Movement return is often reassessed around 3–4 months.`);
-        nexts.push({ name: "Botox review", days: 120 - botox });
-      }
-      if (filler != null) {
-        lines.push(`Filler: ${filler} days ago. Review timing varies, often around 9–18 months depending on area and look.`);
-        nexts.push({ name: "Filler review", days: 365 - filler });
-      }
-
-      const next = nexts.filter(x => x.days != null).sort((a, b) => a.days - b.days)[0];
-      $("statTreatment").textContent = next ? next.name : "Review";
-
-      if (!lines.length) {
-        $("treatmentGuidance").textContent = "Add treatment dates to get guidance.";
-        return;
-      }
-
-      $("treatmentGuidance").innerHTML = lines.join(" ");
-    }
-
-    function summarizeGuidance(state, mode, trend) {
+    function summarizeGuidance(state, mode) {
       const notes = [];
+      if (mode === 'Recovery') notes.push('Recovery overrides the rest of the plan.');
+      if (state.procedureRecovery) notes.push('Procedure-recovery lockout is active: keep strong actives off the table.');
+      if (state.alcohol === 'Heavy') notes.push('Alcohol recovery changes the day: hydration, barrier, and lower inflammatory load.');
+      if (state.retinolLastNight) notes.push('Morning stays gentle because retinol was used last night.');
+      if (state.goal === 'Glow' && mode !== 'Glow') notes.push('Glow was requested, but the system downgraded it for skin safety.');
+      if (!notes.length) notes.push('No high-priority override triggered. Proceed with a stable, controlled routine.');
+      return notes.join(' ');
+    }
 
-      if (mode === "Recovery") notes.push("Recovery overrides the rest of the plan.");
-      if (state.procedureRecovery) notes.push("Procedure-recovery lockout is active, so strong actives stay off.");
-      if (state.alcohol === "Heavy") notes.push("Heavy alcohol shifted today into hydration, inflammation control, and barrier support.");
-      if (state.retinolLastNight) notes.push("The morning stayed gentle because Retinol / AlphaRet was used last night.");
-      if (state.goal === "Glow" && mode !== "Glow") notes.push("Glow was requested, but skin safety downgraded the mode.");
-      if (trend === "Down") notes.push("Recent skin trend suggests simplifying, not adding.");
-      if (!notes.length) notes.push("No major override was triggered. Stay controlled and consistent.");
-
-      return notes.join(" ");
+    function getTrend(entries) {
+      if (entries.length < 3) return 'Flat';
+      const recent = entries.slice(-3);
+      const avg = recent.reduce((a, b) => a + (Number(b.skinScore) || 0), 0) / recent.length;
+      const priorSlice = entries.slice(-6, -3);
+      if (!priorSlice.length) return 'Flat';
+      const priorAvg = priorSlice.reduce((a, b) => a + (Number(b.skinScore) || 0), 0) / priorSlice.length;
+      if (avg > priorAvg + 0.4) return 'Up';
+      if (avg < priorAvg - 0.4) return 'Down';
+      return 'Flat';
     }
 
     function renderHistory() {
       const entries = loadEntries();
-      $("historyBody").innerHTML = entries.slice().reverse().map(e => `
+      const body = byId('historyBody');
+      body.innerHTML = entries.slice().reverse().map(e => `
         <tr>
-          <td>${e.date || ""}</td>
-          <td>${e.mode || ""}</td>
-          <td>${e.skinScore || ""}</td>
-          <td>${e.alcohol || ""}</td>
-          <td>${e.goal || ""}</td>
-          <td>${e.notes || ""}</td>
+          <td>${e.date || ''}</td>
+          <td>${e.mode || ''}</td>
+          <td>${e.goal || ''}</td>
+          <td>${e.skinScore || ''}</td>
+          <td>${e.alcohol || ''}</td>
+          <td>${e.notes || ''}</td>
         </tr>
-      `).join("");
+      `).join('');
 
-      $("statTrend").textContent = calcTrend(entries);
+      byId('statTrend').textContent = getTrend(entries);
     }
 
-    function collectState() {
-      return {
-        date: $("date").value,
-        alcohol: $("alcohol").value,
-        goal: $("goal").value,
-        dryness: $("dryness").value,
-        sleep: $("sleep").value,
-        skinScore: Number($("skinScore").value || 0),
-        breakouts: $("breakouts").value,
-        retinolLastNight: $("retinolLastNight").checked,
-        skinIrritated: $("skinIrritated").checked,
-        procedureRecovery: $("procedureRecovery").checked,
-        badReaction: $("badReaction").checked,
-        notes: $("notes").value.trim()
+    function refreshTreatmentGuidance() {
+      const t = {
+        halo: byId('haloDate').value,
+        bbl: byId('bblDate').value,
+        sculptra: byId('sculptraDate').value,
+        botox: byId('botoxDate').value,
+        filler: byId('fillerDate').value
       };
+      saveTreatments(t);
+
+      const haloDays = daysSince(t.halo);
+      const bblDays = daysSince(t.bbl);
+      const sculptraDays = daysSince(t.sculptra);
+      const botoxDays = daysSince(t.botox);
+      const fillerDays = daysSince(t.filler);
+
+      const lines = [];
+      const nexts = [];
+
+      if (haloDays != null) {
+        lines.push(`Halo: ${haloDays} days ago. General maintenance window often falls around 6–12 months depending on goals and response.`);
+        nexts.push({ name: 'Halo review', days: 365 - haloDays });
+      }
+      if (bblDays != null) {
+        lines.push(`BBL: ${bblDays} days ago. Maintenance often lands around 3–4 months depending on redness, pigment, and tone.`);
+        nexts.push({ name: 'BBL review', days: 120 - bblDays });
+      }
+      if (sculptraDays != null) {
+        lines.push(`Sculptra: ${sculptraDays} days ago. Collagen support reviews are often considered around 6–12 months depending on the series and response.`);
+        nexts.push({ name: 'Sculptra review', days: 365 - sculptraDays });
+      }
+      if (botoxDays != null) {
+        lines.push(`Botox: ${botoxDays} days ago. Motion and line return often get reassessed around 3–4 months.`);
+        nexts.push({ name: 'Botox review', days: 120 - botoxDays });
+      }
+      if (fillerDays != null) {
+        lines.push(`Filler: ${fillerDays} days ago. Review timing varies a lot by area, product, and look, often around 9–18 months.`);
+        nexts.push({ name: 'Filler review', days: 365 - fillerDays });
+      }
+
+      if (!lines.length) {
+        byId('treatmentGuidance').textContent = 'Add your dates to get treatment timing guidance.';
+        byId('statTreatment').textContent = 'Review';
+        return;
+      }
+
+      const caution = '<br><br><span class="small">This is a planning guide, not medical advice. Treatment timing should still be confirmed with your injector or laser provider based on your skin, goals, and healing.</span>';
+      byId('treatmentGuidance').innerHTML = '<ul>' + lines.map(x => `<li>${x}</li>`).join('') + '</ul>' + caution;
+
+      const upcoming = nexts
+        .filter(x => x.days != null)
+        .sort((a,b) => a.days - b.days)[0];
+      byId('statTreatment').textContent = upcoming ? upcoming.name : 'Review';
     }
 
-    function runOS() {
-      const state = collectState();
+    function generateDay() {
+      const state = {
+        date: byId('date').value,
+        alcohol: byId('alcohol').value,
+        retinolLastNight: byId('retinolLastNight').checked,
+        skinIrritated: byId('skinIrritated').checked,
+        procedureRecovery: byId('procedureRecovery').checked,
+        badReaction: byId('badReaction').checked,
+        sleepQuality: byId('sleepQuality').value,
+        drynessLevel: byId('drynessLevel').value,
+        goal: byId('goal').value,
+        skinScore: Number(byId('skinScore').value || 0),
+        notes: byId('notes').value.trim()
+      };
+
       const entries = loadEntries();
-      const trend = calcTrend(entries);
+      const trend = getTrend(entries);
       const mode = getMode(state);
-
-      const morning = getMorningRoutine(state, mode);
-      const night = getNightRoutine(state, mode, entries);
+      const morning = getMorningRoutine(mode);
+      const night = getNightRoutine(state, mode);
       const supplements = getSupplementPlan(state, mode);
-      const avoid = getAvoid(state, mode);
+      const avoid = getAvoidToday(state, mode);
       const food = getFoodPlan(state, mode);
-      const performance = getPerformanceEngine(state, mode, trend, entries);
-      const guidance = summarizeGuidance(state, mode, trend);
-      const retinolForecast = getRetinolForecast(state, mode, entries);
-      const ledGuidance = getLEDGuidance(state, mode);
-      const recoveryLoad = getRecoveryLoad(state);
+      const recs = getRecommendations(state, mode, trend);
+      const guidance = summarizeGuidance(state, mode);
 
-      $("modeChip").textContent = mode;
-      $("statMode").textContent = mode;
-      $("statTonight").textContent = night.includes("Retinol") || night.includes("AlphaRet") ? "Retinol candidate" : "Recovery / copper";
+      byId('modeChip').textContent = `Mode: ${mode}`;
+      byId('morningRoutine').textContent = morning;
+      byId('nightRoutine').textContent = night;
+      byId('supplementPlan').textContent = supplements;
+      byId('avoidToday').textContent = avoid;
+      byId('foodPlan').innerHTML = food;
+      byId('recommendationEngine').innerHTML = recs;
+      byId('systemGuidance').textContent = guidance;
 
-      $("morningRoutine").textContent = morning;
-      $("nightRoutine").textContent = night;
-      $("supplementPlan").textContent = supplements;
-      $("avoidToday").textContent = avoid;
-      $("foodPlan").innerHTML = food;
-      $("performanceEngine").innerHTML = performance;
-      $("systemGuidance").textContent = guidance;
-      $("retinolForecast").textContent = retinolForecast;
-      $("ledGuidance").textContent = ledGuidance;
-      $("recoveryLoad").textContent = recoveryLoad;
-
-      const dotColors = {
-        "Recovery": "#ff9a9a",
-        "Gentle": "#ffd38a",
-        "Clean Look": "#6ea8fe",
-        "Glow": "#87e1c2"
-      };
-      $("modeDot").style.background = dotColors[mode] || "#6ea8fe";
-
-      getTreatmentGuidance();
+      byId('statMode').textContent = mode;
+      byId('statRetinol').textContent = state.retinolLastNight ? 'Used last night' : 'Available if calm';
 
       return { ...state, mode, morning, night, supplements, avoid };
     }
 
     function saveToday() {
-      const payload = runOS();
+      const payload = generateDay();
       if (!payload.date) {
-        alert("Add a date first.");
+        alert('Add a date first.');
         return;
       }
-
       const entries = loadEntries();
       const filtered = entries.filter(e => e.date !== payload.date);
       filtered.push(payload);
-      filtered.sort((a, b) => a.date.localeCompare(b.date));
+      filtered.sort((a,b) => a.date.localeCompare(b.date));
       saveEntries(filtered);
       renderHistory();
-      alert("Saved.");
-    }
-
-    function refreshTreatments() {
-      const t = {
-        halo: $("haloDate").value,
-        bbl: $("bblDate").value,
-        sculptra: $("sculptraDate").value,
-        botox: $("botoxDate").value,
-        filler: $("fillerDate").value
-      };
-      saveTreatments(t);
-      getTreatmentGuidance();
+      alert('Saved.');
     }
 
     function exportData() {
@@ -937,49 +907,48 @@
         entries: loadEntries(),
         treatments: loadTreatments()
       };
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
-      a.download = "daniel-gordon-os-data.json";
+      a.download = 'daniel-gordon-os-data.json';
       a.click();
       URL.revokeObjectURL(url);
     }
 
     function resetInputs() {
-      $("date").value = todayISO();
-      $("alcohol").value = "None";
-      $("goal").value = "Clean Look";
-      $("dryness").value = "Low";
-      $("sleep").value = "Good";
-      $("skinScore").value = 7;
-      $("breakouts").value = "None";
-      $("retinolLastNight").checked = false;
-      $("skinIrritated").checked = false;
-      $("procedureRecovery").checked = false;
-      $("badReaction").checked = false;
-      $("notes").value = "";
-      runOS();
+      byId('date').value = todayISO();
+      byId('alcohol').value = 'None';
+      byId('retinolLastNight').checked = false;
+      byId('skinIrritated').checked = false;
+      byId('procedureRecovery').checked = false;
+      byId('badReaction').checked = false;
+      byId('sleepQuality').value = 'Good';
+      byId('drynessLevel').value = 'Low';
+      byId('goal').value = 'Clean Look';
+      byId('skinScore').value = 7;
+      byId('notes').value = '';
+      generateDay();
     }
 
-    function hydrateTreatments() {
+    function hydrateTreatmentFields() {
       const t = loadTreatments();
-      $("haloDate").value = t.halo || "";
-      $("bblDate").value = t.bbl || "";
-      $("sculptraDate").value = t.sculptra || "";
-      $("botoxDate").value = t.botox || "";
-      $("fillerDate").value = t.filler || "";
-      getTreatmentGuidance();
+      byId('haloDate').value = t.halo || '';
+      byId('bblDate').value = t.bbl || '';
+      byId('sculptraDate').value = t.sculptra || '';
+      byId('botoxDate').value = t.botox || '';
+      byId('fillerDate').value = t.filler || '';
+      refreshTreatmentGuidance();
     }
 
-    $("generateBtn").addEventListener("click", runOS);
-    $("saveBtn").addEventListener("click", saveToday);
-    $("resetBtn").addEventListener("click", resetInputs);
-    $("refreshTreatmentsBtn").addEventListener("click", refreshTreatments);
-    $("exportBtn").addEventListener("click", exportData);
+    byId('generateBtn').addEventListener('click', generateDay);
+    byId('saveBtn').addEventListener('click', saveToday);
+    byId('exportBtn').addEventListener('click', exportData);
+    byId('resetBtn').addEventListener('click', resetInputs);
+    byId('refreshTreatmentsBtn').addEventListener('click', refreshTreatmentGuidance);
 
     renderCatalog();
-    hydrateTreatments();
+    hydrateTreatmentFields();
     renderHistory();
     resetInputs();
   </script>
