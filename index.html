@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel Gordon OS</title>
+
+<style>
+body {
+  margin:0;
+  font-family:-apple-system,system-ui;
+  background:#0b0d12;
+  color:white;
+}
+.container {
+  padding:18px;
+  max-width:500px;
+  margin:auto;
+}
+.card {
+  background:#151922;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:14px;
+}
+label {font-weight:600; display:block; margin-top:10px;}
+select,input {
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:10px;
+  border:none;
+  background:#1e2430;
+  color:white;
+}
+button {
+  width:100%;
+  margin-top:16px;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  background:#4da3ff;
+  font-weight:bold;
+}
+.mode {
+  font-size:20px;
+  font-weight:bold;
+  padding:10px;
+  border-radius:12px;
+}
+.recovery {background:#5c2b2b;}
+.clean {background:#2b4d5c;}
+.glow {background:#4d3f2b;}
+.gentle {background:#3a3a5c;}
+.small {font-size:13px;color:#9aa3b2;}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>Daniel Gordon OS</h2>
+
+<div class="card">
+
+<label>Alcohol</label>
+<select id="alcohol">
+<option>None</option>
+<option>Moderate</option>
+<option>Heavy</option>
+</select>
+
+<label>Retinol Last Night</label>
+<input type="checkbox" id="retinol">
+
+<label>Skin Irritated</label>
+<input type="checkbox" id="irritated">
+
+<label>Dryness</label>
+<select id="dryness">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<label>Sleep</label>
+<select id="sleep">
+<option>Good</option>
+<option>Okay</option>
+<option>Bad</option>
+</select>
+
+<label>Skin Score (1-10)</label>
+<input type="number" id="score">
+
+<button onclick="runOS()">Run OS</button>
+
+</div>
+
+<div class="card">
+<div id="modeBox"></div>
+
+<p><b>Morning:</b> <span id="morning"></span></p>
+<p><b>Night:</b> <span id="night"></span></p>
+<p><b>Insight:</b> <span id="insight"></span></p>
+<p><b>Trend:</b> <span id="trend"></span></p>
+</div>
+
+</div>
+
+<script>
+
+function getHistory(){
+  return JSON.parse(localStorage.getItem("history")||"[]");
+}
+
+function saveHistory(data){
+  let h=getHistory();
+  h.push(data);
+  localStorage.setItem("history",JSON.stringify(h));
+}
+
+function calcTrend(){
+  let h=getHistory();
+  if(h.length<3) return "Building baseline";
+
+  let last=h.slice(-3).map(x=>x.score);
+  let avg=last.reduce((a,b)=>a+b)/3;
+
+  if(avg>7) return "Skin thriving";
+  if(avg<5) return "Skin declining";
+  return "Stable";
+}
+
+function runOS(){
+
+let alcohol=document.getElementById("alcohol").value;
+let retinol=document.getElementById("retinol").checked;
+let irritated=document.getElementById("irritated").checked;
+let dryness=document.getElementById("dryness").value;
+let sleep=document.getElementById("sleep").value;
+let score=parseInt(document.getElementById("score").value||5);
+
+let mode="Clean Look";
+
+if(irritated || dryness==="High" || alcohol==="Heavy"){
+  mode="Recovery";
+}
+else if(retinol){
+  mode="Gentle";
+}
+
+let morning,night,insight;
+
+if(mode==="Recovery"){
+  morning="Rinse → B5 → Barrier → SPF";
+  night="Barrier only";
+  insight="You are in repair mode. This is where long-term gains happen.";
+}
+if(mode==="Gentle"){
+  morning="Hydration only";
+  night="Copper / recovery";
+  insight="Stabilizing after retinol.";
+}
+if(mode==="Clean Look"){
+  morning="B5 → Maestro → SPF";
+  night="Optional retinol";
+  insight="Consistency builds your baseline.";
+}
+if(mode==="Glow"){
+  morning="Vitamin C → Hydration";
+  night="Retinol if perfect";
+  insight="Performance mode.";
+}
+
+saveHistory({score});
+
+let trend=calcTrend();
+
+document.getElementById("modeBox").innerHTML=
+`<div class="mode">${mode}</div>`;
+
+document.getElementById("morning").innerText=morning;
+document.getElementById("night").innerText=night;
+document.getElementById("insight").innerText=insight;
+document.getElementById("trend").innerText=trend;
+
+}
+
+</script>
+
+</body>
+</html>
